@@ -53,6 +53,7 @@ html, body {
 
 body {
   margin: 0;
+  padding: 0;
   font-family: Inter, system-ui, sans-serif;
   color: var(--text);
   background:
@@ -102,6 +103,7 @@ button:active {
   -ms-grid-columns: 280px minmax(0, 1fr);
   grid-template-columns: 280px minmax(0, 1fr);
   min-height: 100vh;
+  background: transparent;
 }
 
 .sidebar {
@@ -131,7 +133,6 @@ button:active {
 }
 
 .brand span{
-  color: var(--muted);
   font-size: 0.88rem;
 }
 
@@ -156,6 +157,7 @@ button:active {
 }
 
 .brand p,
+.brand span
 .hero-copy,
 .card-subtitle,
 .sidebar-label,
@@ -165,7 +167,13 @@ button:active {
 .field-label,
 .sidebar-footer,
 .sidebar-nav,
-.stats-grid span {
+.stats-grid span,
+.toast .toast-close,
+.sort-caret,
+.search-icon,
+.task-item.completed .task-title,
+.quote-author,
+.empty-state {
   color: var(--muted);
 }
 
@@ -400,12 +408,9 @@ button:active {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  -webkit-box-pack: justify;
-      -ms-flex-pack: justify;
-          justify-content: space-between;
-  -ms-flex-wrap: nowrap;
-      flex-wrap: nowrap;
+          justify-content: flex-start;
   gap: 10px;
+  width: 100%;
 }
 
 .import-export {
@@ -529,7 +534,6 @@ button:active {
 }
 
 .sort-caret {
-  color: var(--muted);
   font-size: 0.6rem;
 }
 
@@ -620,7 +624,6 @@ button:active {
 }
 
 .search-icon {
-  color: var(--muted);
   display: inline-block;
   font-size: 1.5rem;
   line-height: 0;
@@ -830,7 +833,6 @@ button:active {
 }
 
 .task-item.completed .task-title {
-  color: var(--muted);
   text-decoration: line-through;
 }
 
@@ -953,7 +955,6 @@ button:active {
 .quote-author {
   margin: 0;
   font-size: 0.9rem;
-  color: var(--muted);
   font-weight: 500;
 }
 
@@ -972,7 +973,6 @@ button:active {
 .empty-state {
   padding: 34px 18px;
   text-align: center;
-  color: var(--muted);
   border-radius: 20px;
   border: 1px dashed var(--border);
 }
@@ -1018,7 +1018,6 @@ button:active {
 .toast .toast-close {
   background: transparent;
   border: 0;
-  color: var(--muted);
   font-size: 1rem;
   cursor: pointer;
   line-height: 1;
@@ -1132,6 +1131,11 @@ button:active {
     padding: 18px;
   }
 
+  .search-field {
+    min-width: unset;
+    width: 100%;
+  }
+
   .task-form,
   .toolbar {
     -webkit-box-orient: vertical;
@@ -1163,5 +1167,19 @@ button:active {
     -webkit-box-flex: 1;
         -ms-flex: 1;
             flex: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .tools {
+    flex-direction: column;
+  }
+
+  .sort-field, .tool-btn {
+    min-width: unset;
+  }
+
+  .import-export, .sort-field, .tool-btn {
+    width: 100%;
   }
 }
