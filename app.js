@@ -93,6 +93,8 @@ function applyTheme(theme) {
   document.documentElement.dataset.theme = theme;
   themeToggle.checked = theme === "dark";
   localStorage.setItem(THEME_KEY, theme);
+  themeToggle.setAttribute("aria-label", `Activate ${theme === "dark" ? "light" : "dark"} mode`);
+  themeToggle.parentElement.querySelector("span").textContent = theme === "dark" ? "Light Mode" : "Dark Mode";
 }
 
 function setGreeting() {

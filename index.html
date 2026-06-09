@@ -38,15 +38,15 @@
       <section class="sidebar-card">
         <p class="sidebar-label">Quick stats</p>
         <div class="stats-grid">
-          <article>
+          <article class="stats total">
             <strong id="stat-total">0</strong>
             <span>Total</span>
           </article>
-          <article>
+          <article class="stats open">
             <strong id="stat-open">0</strong>
             <span>Open</span>
           </article>
-          <article>
+          <article class="stats done">
             <strong id="stat-done">0</strong>
             <span>Done</span>
           </article>
@@ -123,7 +123,7 @@
 
   <template id="taskTemplate">
     <li class="task-item">
-      <label class="task-check">
+      <label class="task-check" aria-label="Mark task as completed">
         <input type="checkbox" class="task-toggle">
         <span class="check-ui" aria-hidden="true"></span>
       </label>
@@ -135,7 +135,7 @@
       <div class="task-actions">
         <button type="button" class="icon-btn edit-btn" aria-label="Edit task">✎</button>
         <button type="button" class="icon-btn save-btn" aria-label="Save task">✓</button>
-        <button type="button" class="icon-btn delete-btn" aria-label="Delete task">X</button>
+        <button type="button" class="icon-btn delete-btn" aria-label="Delete task">✕</button>
       </div>
     </li>
   </template>
