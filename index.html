@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Todo EBx</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='1.25em' font-size='55' fill='%23FFFFFF' font-family='sans-serif'>EBx</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -77,9 +78,11 @@
           </label>
 
           <div class="sort-field" aria-label="Sort tasks">
-            <span class="field-label">Sort</span>
             <button id="sortToggle" class="sort-toggle" type="button" aria-haspopup="listbox" aria-expanded="false">
-              <span id="sortLabel">Newest</span>
+              <span class="sort-label-wrapper">
+                <span class="field-label">⇵</span>
+                <span id="sortLabel">Newest</span>
+              </span>
               <span class="sort-caret" aria-hidden="true">▼</span>
             </button>
             <div id="sortMenu" class="sort-menu" role="listbox" aria-label="Sort options" hidden>
@@ -90,6 +93,7 @@
               <button type="button" class="sort-option" data-sort="status">Status</button>
             </div>
           </div>
+          
         </div>
       </header>
 

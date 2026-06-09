@@ -78,6 +78,16 @@ body::before {
     linear-gradient(135deg, #0a0d14 0%, #111824 100%);
 }
 
+button {
+  -webkit-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+
+button:focus,
+button:active {
+  outline: none;
+}
+
 .app-shell {
   display: grid;
   grid-template-columns: 280px minmax(0, 1fr);
@@ -342,10 +352,26 @@ body::before {
 .sort-field {
   position: relative;
   flex-direction: row;
-  padding: 14px 16px;
+  padding: 0;
   min-width: 180px;
   background: var(--surface-strong);
   z-index: 40;
+}
+
+#sortToggle {
+  padding: 14px 16px;
+}
+
+.sort-label-wrapper {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sort-field .field-label {
+  display: inline-block;
+  font-size: 1.2rem;
+  line-height: 0;
 }
 
 .sort-toggle {
@@ -443,6 +469,10 @@ body::before {
 
 .search-icon {
   color: var(--muted);
+  display: inline-block;
+  font-size: 1.5rem;
+  line-height: 0;
+  margin-bottom: 5px;
 }
 
 .field-label {
