@@ -1,7 +1,6 @@
 const STORAGE_KEY = "todo-ebx-state";
 const THEME_KEY = "todo-ebx-theme";
 const QUOTE_STORAGE_KEY = "todo-ebx-quote";
-const PROXY_URL = 'https://api.allorigins.win/raw?url=';
 const QUOTE_API = "https://zenquotes.io/api/random";
 
 // This file keeps all app data in one plain object so saving and rendering stay simple.
@@ -419,7 +418,7 @@ function saveQuote(quote) {
 
 async function fetchAndDisplayQuote() {
   try {
-    const response = await fetch(`${PROXY_URL}${encodeURIComponent(QUOTE_API)}`);
+    const response = await fetch(QUOTE_API);
     if (!response.ok) throw new Error("Failed to fetch quote");
 
     const quote = await response.json();
