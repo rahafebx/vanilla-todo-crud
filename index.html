@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A simple todo app built with vanilla JavaScript, HTML, and CSS. Plan, track, and finish your tasks without refreshing the page.">
   <title>Todo EBx</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='1.25em' font-size='55' fill='%23FFFFFF' font-family='sans-serif'>EBx</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -93,7 +94,7 @@
               <button type="button" class="sort-option" data-sort="status">Status</button>
             </div>
           </div>
-          
+
         </div>
       </header>
 
@@ -118,11 +119,11 @@
           <ul class="task-list" id="taskList" aria-live="polite" aria-label="Task list"></ul>
         </article>
 
-        <article class="new-project card">
-          <div class="new-project-inner">
-            <div class="plus-mark" aria-hidden="true">+</div>
-            <p>Fresh start</p>
-            <span>Add, edit, filter, and finish tasks without refreshing the page.</span>
+        <article class="quote-card card">
+          <div class="quote-content">
+            <div class="star-mark" aria-hidden="true">☆</div>
+            <p class="quote-text fade" id="quoteText">Loading your daily inspiration...</p>
+            <p class="quote-author" id="quoteAuthor"></p>
           </div>
         </article>
       </section>

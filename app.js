@@ -1,5 +1,7 @@
 const STORAGE_KEY = "todo-ebx-state";
 const THEME_KEY = "todo-ebx-theme";
+const QUOTE_STORAGE_KEY = "todo-ebx-quote";
+const QUOTE_API = "https://zenquotes.io/api/random?count=1";
 
 // This file keeps all app data in one plain object so saving and rendering stay simple.
 const defaultState = {
@@ -41,6 +43,8 @@ const statTotal = document.querySelector("#stat-total");
 const statOpen = document.querySelector("#stat-open");
 const statDone = document.querySelector("#stat-done");
 const personalProgress = document.querySelector("#personalProgress");
+const quoteText = document.querySelector("#quoteText");
+const quoteAuthor = document.querySelector("#quoteAuthor");
 
 init();
 
@@ -48,6 +52,7 @@ function init() {
   setGreeting();
   applyTheme(loadTheme());
   syncFilterButtons();
+  initDailyQuote();
   render();
 
   taskForm.addEventListener("submit", handleAddTask);
@@ -377,4 +382,61 @@ function formatTime(timestamp) {
     hour: "numeric",
     minute: "2-digit",
   }).format(timestamp);
+}
+
+function initDailyQuote() {
+  const storedData = loadQuote();
+  const today = new Date().toDateString();
+
+  // If we have a quote and it's from today, display it
+  if (storedData && storedData.date === today) {
+    displayQuote(storedData.quote);
+  } else {
+    // Otherwise fetch a new quote
+    fetchAndDisplayQuote();
+  }
+}
+
+function loadQuote() {
+  const raw = localStorage.getItem(QUOTE_STORAGE_KEY);
+  if (!raw) return null;
+
+  try {
+    return JSON.parse(raw);
+  } catch {
+    return null;
+  }
+}
+
+function saveQuote(quote) {
+  const data = {
+    date: new Date().toDateString(),
+    quote,
+  };
+  localStorage.setItem(QUOTE_STORAGE_KEY, JSON.stringify(data));
+}
+
+async function fetchAndDisplayQuote() {
+  try {
+    const response = await fetch(QUOTE_API);
+    if (!response.ok) throw new Error("Failed to fetch quote");
+
+    const quote = await response.json();
+    saveQuote(quote);
+    displayQuote(quote);
+  } catch (error) {
+    console.error("Error fetching quote:", error);
+    displayQuote({
+      q: "Every day is a new opportunity to be better.",
+      a: "Rahafebx",
+    });
+  }
+}
+
+function displayQuote(quote) {
+  if(quote.q != undefined && quote.q != null){
+    quoteText.textContent = `"${quote.q}"`;
+    quoteAuthor.textContent = `— ${quote.a || "Unknown"}`;
+  }
+  quoteText.classList.remove("fade");
 }
