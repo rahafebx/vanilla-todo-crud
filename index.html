@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo EBx</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">EBx</div>
+        <div>
+          <h1>Todo EBx</h1>
+          <span>Plan, track, finish.</span>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav" aria-label="Primary">
+        <button class="nav-item active" type="button" data-filter="all">
+          <span class="icon" aria-hidden="true">⌂</span>
+          <span>Home</span>
+        </button>
+        <button class="nav-item" type="button" data-filter="active">
+          <span class="icon" aria-hidden="true">◌</span>
+          <span>Active</span>
+        </button>
+        <button class="nav-item" type="button" data-filter="completed">
+          <span class="icon" aria-hidden="true">✓</span>
+          <span>Completed</span>
+        </button>
+      </nav>
+
+      <section class="sidebar-card">
+        <p class="sidebar-label">Quick stats</p>
+        <div class="stats-grid">
+          <article>
+            <strong id="stat-total">0</strong>
+            <span>Total</span>
+          </article>
+          <article>
+            <strong id="stat-open">0</strong>
+            <span>Open</span>
+          </article>
+          <article>
+            <strong id="stat-done">0</strong>
+            <span>Done</span>
+          </article>
+        </div>
+      </section>
+
+      <div class="sidebar-footer">
+        <label class="theme-switch" for="themeToggle">
+          <span>Dark mode</span>
+          <input id="themeToggle" type="checkbox" />
+          <span class="switch-track" aria-hidden="true"></span>
+        </label>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">Today</p>
+          <h2 id="greeting">Good morning.</h2>
+          <p class="hero-copy" id="taskSummary">You have 0 tasks to finish.</p>
+        </div>
+
+        <div class="toolbar">
+          <label class="search-field" aria-label="Search tasks">
+            <span class="search-icon" aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" placeholder="Search tasks...">
+          </label>
+
+          <label class="sort-field" aria-label="Sort tasks">
+            <span class="field-label">Sort</span>
+            <select id="sortSelect">
+              <option value="created-desc">Newest</option>
+              <option value="created-asc">Oldest</option>
+              <option value="title-asc">Title A-Z</option>
+              <option value="title-desc">Title Z-A</option>
+              <option value="status">Status</option>
+            </select>
+          </label>
+        </div>
+      </header>
+
+      <section class="composer card">
+        <form id="taskForm" class="task-form" autocomplete="off">
+          <label class="sr-only" for="taskInput">Task title</label>
+          <input id="taskInput" type="text" placeholder="What’s on your mind?" maxlength="120" required>
+          <button class="primary-btn task-submit" type="submit">Add task</button>
+        </form>
+      </section>
+
+      <section class="board-grid">
+        <article class="project-card card">
+          <div class="card-head">
+            <div>
+              <p class="card-title">Personal</p>
+              <p class="card-subtitle">Everyday tasks and reminders</p>
+            </div>
+            <span class="progress-pill" id="personalProgress">0%</span>
+          </div>
+
+          <ul class="task-list" id="taskList" aria-live="polite" aria-label="Task list"></ul>
+        </article>
+
+        <article class="new-project card">
+          <div class="new-project-inner">
+            <div class="plus-mark" aria-hidden="true">+</div>
+            <p>Fresh start</p>
+            <span>Add, edit, filter, and finish tasks without refreshing the page.</span>
+          </div>
+        </article>
+      </section>
+    </main>
+  </div>
+
+  <template id="taskTemplate">
+    <li class="task-item">
+      <label class="task-check">
+        <input type="checkbox" class="task-toggle">
+        <span class="check-ui" aria-hidden="true"></span>
+      </label>
+      <div class="task-body">
+        <span class="task-title"></span>
+        <input class="task-edit-input" type="text" maxlength="120">
+        <small class="task-meta"></small>
+      </div>
+      <div class="task-actions">
+        <button type="button" class="icon-btn edit-btn" aria-label="Edit task">✎</button>
+        <button type="button" class="icon-btn save-btn" aria-label="Save task">✓</button>
+        <button type="button" class="icon-btn delete-btn" aria-label="Delete task">X</button>
+      </div>
+    </li>
+  </template>
+
+  <script src="app.js"></script>
+</body>
+</html>
