@@ -858,6 +858,10 @@ footer {
   display: inline-grid;
 }
 
+.task-item.editing .delete-btn {
+  display: none;
+}
+
 .task-meta {
   display: block;
   margin-top: 4px;
@@ -1054,6 +1058,7 @@ footer {
   display: -ms-flexbox;
   display: flex;
   gap: 20px;
+  letter-spacing: 0.1em;
 }
 
 .social-links {
@@ -1234,6 +1239,7 @@ footer {
   }
 
   footer {
+    padding: 18px 18px;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
         -ms-flex-direction: column;

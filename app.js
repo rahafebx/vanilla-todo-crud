@@ -366,6 +366,7 @@ function createTaskElement(task) {
 
   deleteButton.addEventListener("click", () => {
     state.tasks = state.tasks.filter((existingTask) => existingTask.id !== task.id);
+    showToast("Task deleted successfully.", "success");
     persistAndRender();
   });
 
@@ -382,6 +383,7 @@ function commitEdit(task, value, taskNode) {
   task.title = nextTitle;
   task.updatedAt = Date.now();
   taskNode.classList.remove("editing");
+  showToast("Task updated successfully.", "success");
   persistAndRender();
 }
 
