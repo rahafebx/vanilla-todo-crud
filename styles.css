@@ -319,6 +319,8 @@ body::before {
   align-items: center;
   gap: 12px;
   flex-wrap: wrap;
+  position: relative;
+  z-index: 30;
 }
 
 .search-field,
@@ -335,6 +337,80 @@ body::before {
   min-width: min(100%, 360px);
   flex: 1 1 0;
   background: var(--surface-strong);
+}
+
+.sort-field {
+  position: relative;
+  flex-direction: row;
+  padding: 14px 16px;
+  min-width: 180px;
+  background: var(--surface-strong);
+  z-index: 40;
+}
+
+.sort-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font: inherit;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.sort-caret {
+  color: var(--muted);
+}
+
+.sort-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  display: grid;
+  gap: 6px;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface-strong);
+  box-shadow: var(--shadow);
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(-8px) scale(0.98);
+  transform-origin: top center;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 160ms ease, transform 160ms ease, visibility 0s linear 160ms;
+}
+
+.sort-menu.is-open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 160ms ease, transform 160ms ease, visibility 0s;
+}
+
+.sort-option {
+  border: 0;
+  border-radius: 14px;
+  padding: 11px 12px;
+  font: inherit;
+  color: var(--text);
+  text-align: left;
+  background: transparent;
+  cursor: pointer;
+  transition: background 160ms ease, color 160ms ease;
+}
+
+.sort-option:hover,
+.sort-option.active {
+  background: var(--accent-soft);
+  color: var(--accent);
 }
 
 .search-field input,
@@ -366,10 +442,6 @@ body::before {
 
 .field-label {
   font-size: 0.88rem;
-}
-
-.sort-field select {
-  min-width: 130px;
 }
 
 .card,
@@ -681,5 +753,9 @@ body::before {
 
   .sidebar {
     padding: 18px;
+  }
+
+  .sort-field {
+    width: 100%;
   }
 }

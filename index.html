@@ -76,16 +76,20 @@
             <input id="searchInput" type="search" placeholder="Search tasks...">
           </label>
 
-          <label class="sort-field" aria-label="Sort tasks">
+          <div class="sort-field" aria-label="Sort tasks">
             <span class="field-label">Sort</span>
-            <select id="sortSelect">
-              <option value="created-desc">Newest</option>
-              <option value="created-asc">Oldest</option>
-              <option value="title-asc">Title A-Z</option>
-              <option value="title-desc">Title Z-A</option>
-              <option value="status">Status</option>
-            </select>
-          </label>
+            <button id="sortToggle" class="sort-toggle" type="button" aria-haspopup="listbox" aria-expanded="false">
+              <span id="sortLabel">Newest</span>
+              <span class="sort-caret" aria-hidden="true">⌄</span>
+            </button>
+            <div id="sortMenu" class="sort-menu" role="listbox" aria-label="Sort options" hidden>
+              <button type="button" class="sort-option" data-sort="created-desc">Newest</button>
+              <button type="button" class="sort-option" data-sort="created-asc">Oldest</button>
+              <button type="button" class="sort-option" data-sort="title-asc">Title A-Z</button>
+              <button type="button" class="sort-option" data-sort="title-desc">Title Z-A</button>
+              <button type="button" class="sort-option" data-sort="status">Status</button>
+            </div>
+          </div>
         </div>
       </header>
 

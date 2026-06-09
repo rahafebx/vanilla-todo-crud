@@ -31,7 +31,9 @@ const taskInput = document.querySelector("#taskInput");
 const taskList = document.querySelector("#taskList");
 const taskTemplate = document.querySelector("#taskTemplate");
 const searchInput = document.querySelector("#searchInput");
-const sortSelect = document.querySelector("#sortSelect");
+const sortToggle = document.querySelector("#sortToggle");
+const sortLabel = document.querySelector("#sortLabel");
+const sortMenu = document.querySelector("#sortMenu");
 const themeToggle = document.querySelector("#themeToggle");
 const greeting = document.querySelector("#greeting");
 const taskSummary = document.querySelector("#taskSummary");
@@ -50,8 +52,15 @@ function init() {
 
   taskForm.addEventListener("submit", handleAddTask);
   searchInput.addEventListener("input", handleSearch);
-  sortSelect.addEventListener("change", handleSort);
   themeToggle.addEventListener("change", handleThemeToggle);
+  sortToggle.addEventListener("click", toggleSortMenu);
+
+  sortMenu.querySelectorAll("[data-sort]").forEach((option) => {
+    option.addEventListener("click", () => handleSort(option.dataset.sort));
+  });
+
+  document.addEventListener("click", handleDocumentClick);
+  document.addEventListener("keydown", handleDocumentKeydown);
 
   document.querySelectorAll("[data-filter]").forEach((button) => {
     button.addEventListener("click", () => handleFilterChange(button.dataset.filter, button));
@@ -129,8 +138,9 @@ function handleSearch(event) {
   render();
 }
 
-function handleSort(event) {
-  state.sort = event.target.value;
+function handleSort(sortValue) {
+  state.sort = sortValue;
+  closeSortMenu();
   persistAndRender(false);
 }
 
@@ -165,7 +175,13 @@ function render() {
   taskSummary.textContent = `You have ${open} task${open === 1 ? "" : "s"} remaining for today.`;
   personalProgress.textContent = `${total ? Math.round((done / total) * 100) : 0}%`;
   searchInput.value = state.search;
-  sortSelect.value = state.sort;
+  sortLabel.textContent = getSortLabel(state.sort);
+
+  sortMenu.querySelectorAll("[data-sort]").forEach((option) => {
+    const isActive = option.dataset.sort === state.sort;
+    option.classList.toggle("active", isActive);
+    option.setAttribute("aria-selected", String(isActive));
+  });
 
   taskList.innerHTML = "";
 
@@ -219,6 +235,69 @@ function sortTasks(firstTask, secondTask) {
     case "created-desc":
     default:
       return secondTask.createdAt - firstTask.createdAt;
+  }
+}
+
+function toggleSortMenu() {
+  const isExpanded = sortToggle.getAttribute("aria-expanded") === "true";
+
+  if (isExpanded) {
+    closeSortMenu();
+    return;
+  }
+
+  openSortMenu();
+}
+
+function openSortMenu() {
+  sortToggle.setAttribute("aria-expanded", "true");
+  sortMenu.hidden = false;
+  requestAnimationFrame(() => {
+    sortMenu.classList.add("is-open");
+  });
+}
+
+function closeSortMenu() {
+  sortToggle.setAttribute("aria-expanded", "false");
+  sortMenu.classList.remove("is-open");
+
+  const handleTransitionEnd = (event) => {
+    if (event.target !== sortMenu || event.propertyName !== "opacity") {
+      return;
+    }
+
+    sortMenu.hidden = true;
+    sortMenu.removeEventListener("transitionend", handleTransitionEnd);
+  };
+
+  sortMenu.addEventListener("transitionend", handleTransitionEnd);
+}
+
+function handleDocumentClick(event) {
+  if (!sortMenu.hidden && !event.target.closest(".sort-field")) {
+    closeSortMenu();
+  }
+}
+
+function handleDocumentKeydown(event) {
+  if (event.key === "Escape") {
+    closeSortMenu();
+  }
+}
+
+function getSortLabel(sortValue) {
+  switch (sortValue) {
+    case "created-asc":
+      return "Oldest";
+    case "title-asc":
+      return "Title A-Z";
+    case "title-desc":
+      return "Title Z-A";
+    case "status":
+      return "Status";
+    case "created-desc":
+    default:
+      return "Newest";
   }
 }
 
