@@ -173,7 +173,8 @@ button:active {
 .search-icon,
 .task-item.completed .task-title,
 .quote-author,
-.empty-state {
+.empty-state,
+footer {
   color: var(--muted);
 }
 
@@ -408,7 +409,9 @@ button:active {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-          justify-content: flex-start;
+          -webkit-box-pack: start;
+              -ms-flex-pack: start;
+                  justify-content: flex-start;
   gap: 10px;
   width: 100%;
 }
@@ -1027,6 +1030,50 @@ button:active {
 .toast--error { border-left: 4px solid var(--danger); }
 .toast--info { border-left: 4px solid var(--accent); }
 
+footer {
+  padding: 10px 18px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-soft);
+  backdrop-filter: blur(24px);
+  font-size: 0.8rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.social-links, .social-links li a{
+  list-style-type: none;
+  padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 20px;
+}
+
+.social-links {
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
+.social-links li a {
+  color: var(--muted);
+  text-decoration: none;
+  -webkit-transition: color 160ms ease;
+  transition: color 160ms ease;
+  gap: 5px;
+}
+
+.social-links li a:hover {
+  color: var(--accent);
+}
+
 @-webkit-keyframes toast-in {
   from { opacity: 0; -webkit-transform: translateY(8px) scale(0.98); transform: translateY(8px) scale(0.98); }
   to { opacity: 1; -webkit-transform: translateY(0) scale(1); transform: translateY(0) scale(1); }
@@ -1172,7 +1219,10 @@ button:active {
 
 @media (max-width: 600px) {
   .tools {
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
 
   .sort-field, .tool-btn {
@@ -1181,5 +1231,14 @@ button:active {
 
   .import-export, .sort-field, .tool-btn {
     width: 100%;
+  }
+
+  footer {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    gap: 0px;
+    text-align: center;
   }
 }
