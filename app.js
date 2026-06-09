@@ -1,7 +1,8 @@
 const STORAGE_KEY = "todo-ebx-state";
 const THEME_KEY = "todo-ebx-theme";
 const QUOTE_STORAGE_KEY = "todo-ebx-quote";
-const QUOTE_API = "https://zenquotes.io/api/random?count=1";
+const PROXY_URL = 'https://api.allorigins.win/raw?url=';
+const QUOTE_API = "https://zenquotes.io/api/random";
 
 // This file keeps all app data in one plain object so saving and rendering stay simple.
 const defaultState = {
@@ -418,7 +419,7 @@ function saveQuote(quote) {
 
 async function fetchAndDisplayQuote() {
   try {
-    const response = await fetch(QUOTE_API);
+    const response = await fetch(`${PROXY_URL}${encodeURIComponent(QUOTE_API)}`);
     if (!response.ok) throw new Error("Failed to fetch quote");
 
     const quote = await response.json();
@@ -426,17 +427,17 @@ async function fetchAndDisplayQuote() {
     displayQuote(quote);
   } catch (error) {
     console.error("Error fetching quote:", error);
-    displayQuote({
+    displayQuote([{
       q: "Every day is a new opportunity to be better.",
       a: "Rahafebx",
-    });
+    }]);
   }
 }
 
 function displayQuote(quote) {
-  if(quote.q != undefined && quote.q != null){
-    quoteText.textContent = `"${quote.q}"`;
-    quoteAuthor.textContent = `— ${quote.a || "Unknown"}`;
+  if(quote[0].q != undefined && quote[0].q != null){
+    quoteText.textContent = `"${quote[0].q}"`;
+    quoteAuthor.textContent = `— ${quote[0].a || "Unknown"}`;
   }
   quoteText.classList.remove("fade");
 }
