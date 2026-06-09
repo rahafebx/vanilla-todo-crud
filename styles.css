@@ -362,8 +362,13 @@ body::before {
   cursor: pointer;
 }
 
+#sortLabel {
+  font-size: 0.88rem;
+}
+
 .sort-caret {
   color: var(--muted);
+  font-size: 0.6rem;
 }
 
 .sort-menu {
