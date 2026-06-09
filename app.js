@@ -45,6 +45,10 @@ const statDone = document.querySelector("#stat-done");
 const personalProgress = document.querySelector("#personalProgress");
 const quoteText = document.querySelector("#quoteText");
 const quoteAuthor = document.querySelector("#quoteAuthor");
+const exportBtn = document.querySelector("#exportBtn");
+const importBtn = document.querySelector("#importBtn");
+const importFileInput = document.querySelector("#importFile");
+const toasts = document.querySelector("#toasts");
 
 init();
 
@@ -70,6 +74,12 @@ function init() {
   document.querySelectorAll("[data-filter]").forEach((button) => {
     button.addEventListener("click", () => handleFilterChange(button.dataset.filter, button));
   });
+
+  if (exportBtn) exportBtn.addEventListener("click", handleExport);
+  if (importBtn && importFileInput) {
+    importBtn.addEventListener("click", () => importFileInput.click());
+    importFileInput.addEventListener("change", handleImportFile);
+  }
 }
 
 function loadState() {
@@ -439,4 +449,133 @@ function displayQuote(quote) {
     quoteAuthor.textContent = `— ${quote[0].a || "Unknown"}`;
   }
   quoteText.classList.remove("fade");
+}
+
+function showToast(message, type = "info", timeout = 10000) {
+  if (!toasts) return;
+
+  const toast = document.createElement("div");
+  toast.className = `toast toast--${type}`;
+
+  const body = document.createElement("div");
+  body.className = "toast-body";
+  body.textContent = message;
+
+  const close = document.createElement("button");
+  close.className = "toast-close";
+  close.setAttribute("aria-label", "Dismiss");
+  close.innerHTML = "✕";
+  close.addEventListener("click", () => {
+    toast.remove();
+  });
+
+  toast.appendChild(body);
+  toast.appendChild(close);
+  toasts.appendChild(toast);
+
+  setTimeout(() => {
+    toast.remove();
+  }, timeout);
+}
+
+// ---------- Export / Import Handlers ----------
+function handleExport() {
+  const payload = {
+    exportedAt: Date.now(),
+    tasks: state.tasks,
+  };
+
+  const data = JSON.stringify(payload, null, 2);
+  const blob = new Blob([data], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `todo-ebx-tasks-${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  URL.revokeObjectURL(url);
+}
+
+function handleImportFile(event) {
+  const input = event.target;
+  const file = input && input.files && input.files[0];
+  if (!file) return;
+
+  const isJson = (file.type && file.type.includes("json")) || file.name.toLowerCase().endsWith(".json");
+  if (!isJson) {
+    showToast("Please select a JSON file to import.", "error");
+    input.value = "";
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const parsed = JSON.parse(String(reader.result));
+      const tasksArray = Array.isArray(parsed) ? parsed : parsed.tasks;
+
+      if (!Array.isArray(tasksArray)) {
+        showToast("Invalid file format. Expected an array of tasks or an object with a 'tasks' array.", "error");
+        input.value = "";
+        return;
+      }
+
+      const added = importTasks(tasksArray);
+      if (added > 0) {
+        persistAndRender();
+        showToast(`Imported ${added} new task${added === 1 ? "" : "s"}.`, "success");
+      } else {
+        showToast("No new tasks to import.", "info");
+      }
+    } catch (err) {
+      console.error(err);
+      showToast("Failed to parse JSON file.", "error");
+    } finally {
+      input.value = "";
+    }
+  };
+
+  reader.onerror = () => {
+    showToast("Failed to read file.", "error");
+    input.value = "";
+  };
+
+  reader.readAsText(file);
+}
+
+function importTasks(tasksArray) {
+  const existingIds = new Set(state.tasks.map((t) => t.id));
+  const existingTitles = new Set(state.tasks.map((t) => String(t.title || "").trim().toLowerCase()));
+  let added = 0;
+
+  for (const raw of tasksArray) {
+    if (!raw || typeof raw !== "object") continue;
+
+    const title = String(raw.title || "").trim();
+    if (!title) continue;
+
+    const normalizedTitle = title.toLowerCase();
+
+    // Skip if a task with the same title already exists (case-insensitive)
+    if (existingTitles.has(normalizedTitle)) continue;
+
+    const hasId = typeof raw.id === "string" && raw.id;
+    if (hasId && existingIds.has(raw.id)) continue;
+
+    const newTask = {
+      id: hasId ? raw.id : crypto.randomUUID(),
+      title,
+      completed: Boolean(raw.completed),
+      createdAt: typeof raw.createdAt === "number" ? raw.createdAt : Date.now(),
+      updatedAt: typeof raw.updatedAt === "number" ? raw.updatedAt : Date.now(),
+    };
+
+    state.tasks.push(newTask);
+    existingIds.add(newTask.id);
+    existingTitles.add(normalizedTitle);
+    added++;
+  }
+
+  return added;
 }

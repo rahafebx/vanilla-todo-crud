@@ -78,6 +78,10 @@ body::before {
     linear-gradient(135deg, #0a0d14 0%, #111824 100%);
 }
 
+.no-scrollbars::-webkit-scrollbar {
+  display: none;
+}
+
 button {
   -webkit-tap-highlight-color: transparent;
   tap-highlight-color: transparent;
@@ -333,6 +337,45 @@ button:active {
   z-index: 30;
 }
 
+.tools {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  gap: 10px;
+}
+
+.import-export {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tool-btn {
+  height: 54px;
+  min-width: 100px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border-radius: 999px;
+  border: 0;
+  font: inherit;
+  font-weight: 700;
+  font-size: 0.88rem;
+  box-shadow: var(--shadow);
+}
+
+.tool-btn.export {
+  background: rgba(42, 137, 255, 0.12);
+  color: var(--accent);
+}
+
+.tool-btn.import {
+  background: rgba(56, 193, 114, 0.12);
+  color: var(--success);
+}
+
 .search-field,
 .sort-field {
   display: flex;
@@ -530,6 +573,8 @@ button:active {
 
 .project-card {
   padding: 22px;
+  max-height: 510px;
+  overflow: hidden;
 }
 
 .card-head {
@@ -565,6 +610,8 @@ button:active {
   margin: 0;
   padding: 0;
   list-style: none;
+  max-height: 400px;
+  overflow-y: scroll;
 }
 
 .task-item {
@@ -766,6 +813,53 @@ button:active {
   border: 1px dashed var(--border);
 }
 
+/* Toast notifications */
+.toasts {
+  position: fixed;
+  right: 20px;
+  top: 20px;
+  display: grid;
+  gap: 12px;
+  z-index: 2000;
+}
+
+.toast {
+  min-width: 260px;
+  max-width: 420px;
+  padding: 14px 14px;
+  border-radius: 12px;
+  background: var(--surface-strong);
+  color: var(--text);
+  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.18);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: start;
+  gap: 12px;
+  animation: toast-in 240ms ease;
+}
+
+.toast .toast-body {
+  flex: 1 1 auto;
+}
+
+.toast .toast-close {
+  background: transparent;
+  border: 0;
+  color: var(--muted);
+  font-size: 1rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.toast--success { border-left: 4px solid var(--success); }
+.toast--error { border-left: 4px solid var(--danger); }
+.toast--info { border-left: 4px solid var(--accent); }
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(8px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 @keyframes rise {
   from {
     opacity: 0;
@@ -841,6 +935,6 @@ button:active {
   }
 
   .sort-field {
-    width: 100%;
+    flex: 1;
   }
 }

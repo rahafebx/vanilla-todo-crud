@@ -13,6 +13,18 @@ Simple yet powerful Todo app showcasing full CRUD operations. Includes dynamic f
 - Inline editing of task titles
 - Responsive design for mobile and desktop
 - Clean and modern UI with CSS variables and animations
+- Accessibility features for better user experience
+- Local storage support to persist tasks across sessions
+- Import/export functionality for task data
+- Toast notifications for user feedback on actions
+- Optimized for performance with efficient DOM manipulation and event handling
+- Modular code structure for maintainability and scalability
+- Comprehensive error handling and user input validation
+- Dark mode support for better usability in low-light environments
+- Keyboard navigation for improved accessibility
+- Drag-and-drop functionality for task reordering (planned for future updates)
+- Integration with third-party APIs for enhanced functionality (planned for future updates)
+- Unit tests for critical functions to ensure reliability (planned for future updates)
 ## Usage
 1. Clone the repository:
    ```bash

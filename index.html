@@ -78,23 +78,31 @@
             <input id="searchInput" type="search" placeholder="Search tasks...">
           </label>
 
-          <div class="sort-field" aria-label="Sort tasks">
-            <button id="sortToggle" class="sort-toggle" type="button" aria-haspopup="listbox" aria-expanded="false">
-              <span class="sort-label-wrapper">
-                <span class="field-label">⇵</span>
-                <span id="sortLabel">Newest</span>
-              </span>
-              <span class="sort-caret" aria-hidden="true">▼</span>
-            </button>
-            <div id="sortMenu" class="sort-menu" role="listbox" aria-label="Sort options" hidden>
-              <button type="button" class="sort-option" data-sort="created-desc">Newest</button>
-              <button type="button" class="sort-option" data-sort="created-asc">Oldest</button>
-              <button type="button" class="sort-option" data-sort="title-asc">Title A-Z</button>
-              <button type="button" class="sort-option" data-sort="title-desc">Title Z-A</button>
-              <button type="button" class="sort-option" data-sort="status">Status</button>
+          <div class="tools">
+            <div class="sort-field" aria-label="Sort tasks">
+              <button id="sortToggle" class="sort-toggle" type="button" aria-haspopup="listbox" aria-expanded="false">
+                <span class="sort-label-wrapper">
+                  <span class="field-label">⇵</span>
+                  <span id="sortLabel">Newest</span>
+                </span>
+                <span class="sort-caret" aria-hidden="true">▼</span>
+              </button>
+              <div id="sortMenu" class="sort-menu" role="listbox" aria-label="Sort options" hidden>
+                <button type="button" class="sort-option" data-sort="created-desc">Newest</button>
+                <button type="button" class="sort-option" data-sort="created-asc">Oldest</button>
+                <button type="button" class="sort-option" data-sort="title-asc">Title A-Z</button>
+                <button type="button" class="sort-option" data-sort="title-desc">Title Z-A</button>
+                <button type="button" class="sort-option" data-sort="status">Status</button>
+              </div>
+            </div>
+            <div class="import-export">
+              <button id="exportBtn" class="tool-btn export" type="button" aria-label="Export tasks">⤓ <span>Export</span></button>
+              <button id="importBtn" class="tool-btn import" type="button" aria-label="Import tasks">⤒ <span>Import</span></button>
+              <input id="importFile" type="file" accept=".json,application/json" hidden aria-hidden="true">
             </div>
           </div>
 
+          
         </div>
       </header>
 
@@ -116,7 +124,7 @@
             <span class="progress-pill" id="personalProgress">0%</span>
           </div>
 
-          <ul class="task-list" id="taskList" aria-live="polite" aria-label="Task list"></ul>
+          <ul class="task-list no-scrollbars" id="taskList" aria-live="polite" aria-label="Task list"></ul>
         </article>
 
         <article class="quote-card card">
@@ -149,6 +157,7 @@
     </li>
   </template>
 
+  <div id="toasts" class="toasts" aria-live="polite" aria-atomic="true"></div>
   <script src="app.js"></script>
 </body>
 </html>
