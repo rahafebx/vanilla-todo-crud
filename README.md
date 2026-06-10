@@ -30,9 +30,22 @@ Simple yet powerful Todo app showcasing full CRUD operations. Includes dynamic f
    ```bash
    git clone https://github.com/rahafebx/vanilla-todo-crud.git
     ```
-2. Open `index.html` in your web browser.
-3. Start adding, editing, and managing your tasks!
+2. Navigate to the project directory:
+    ```bash
+    cd vanilla-todo-crud
+    ```
+3. Install dependencies (if any):
+    ```bash
+    npm install
+    ```
+
+4. Start the development server:
+    ```bash
+    npm start
+    ```
+5. Open your browser and go to `http://localhost:1234` to see the app in action.
+
 ## Contributing
-Contributions are welcome! Please fork the repository and submit a pull request with your improvements or bug fixes.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute to this project.
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
