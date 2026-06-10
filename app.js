@@ -1,7 +1,7 @@
 const STORAGE_KEY = "todo-ebx-state";
 const THEME_KEY = "todo-ebx-theme";
 const QUOTE_STORAGE_KEY = "todo-ebx-quote";
-const QUOTE_API = "https://zenquotes.io/api/random";
+const QUOTE_API = "https://quotesapi.prayushadhikari.com.np/api/quotes?category=inspiration-quotes&limit=1";
 
 // This file keeps all app data in one plain object so saving and rendering stay simple.
 const defaultState = {
@@ -438,17 +438,21 @@ async function fetchAndDisplayQuote() {
     displayQuote(quote);
   } catch (error) {
     console.error("Error fetching quote:", error);
-    displayQuote([{
-      q: "Every day is a new opportunity to be better.",
-      a: "Rahafebx",
-    }]);
+    displayQuote({
+      "data": [
+        {
+          "quote": "Every day is a new opportunity to be better.",
+          "author": "Rahafebx",
+        }
+      ]
+    });
   }
 }
 
 function displayQuote(quote) {
-  if(quote[0].q != undefined && quote[0].q != null){
-    quoteText.textContent = `"${quote[0].q}"`;
-    quoteAuthor.textContent = `— ${quote[0].a || "Unknown"}`;
+  if(quote.data[0].quote != undefined && quote.data[0].quote != null){
+    quoteText.textContent = `"${quote.data[0].quote}"`;
+    quoteAuthor.textContent = `— ${quote.data[0].author || "Unknown"}`;
   }
   quoteText.classList.remove("fade");
 }
