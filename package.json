@@ -1,0 +1,24 @@
+{
+  "name": "vanilla-todo-crud",
+  "version": "1.0.0",
+  "description": "Simple yet powerful Todo app showcasing full CRUD operations. Includes dynamic filtering, inline editing, and a modern UI. No frameworks, just pure HTML, CSS, and JavaScript.",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel src/build index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rahafebx/vanilla-todo-crud.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rahafebx/vanilla-todo-crud/issues"
+  },
+  "homepage": "https://github.com/rahafebx/vanilla-todo-crud#readme",
+  "devDependencies": {
+    "parcel": "^2.16.4"
+  }
+}
