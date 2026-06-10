@@ -49,6 +49,11 @@ const exportBtn = document.querySelector("#exportBtn");
 const importBtn = document.querySelector("#importBtn");
 const importFileInput = document.querySelector("#importFile");
 const toasts = document.querySelector("#toasts");
+const shareQuoteBtn = document.querySelector("#shareQuoteBtn");
+const shareModal = document.querySelector("#shareModal");
+const shareQuoteBtns = document.querySelectorAll(".share-quote-btn");
+const closeShareModalBtn = document.querySelector("#closeShareModal");
+const overlay = document.querySelector("#overlay");
 
 init();
 
@@ -80,6 +85,14 @@ function init() {
     importBtn.addEventListener("click", () => importFileInput.click());
     importFileInput.addEventListener("change", handleImportFile);
   }
+
+    if (shareQuoteBtn) {
+    shareQuoteBtn.addEventListener("click", () => openShareQuoteModal(quoteText.textContent, quoteAuthor.textContent));
+  }
+  shareQuoteBtns.forEach((btn) => {
+    btn.addEventListener("click", () => shareQuote(quoteText.textContent, quoteAuthor.textContent, btn.dataset.platform));
+  });
+  closeShareModalBtn.addEventListener("click", closeShareModal);
 }
 
 function loadState() {
@@ -292,6 +305,11 @@ function handleDocumentClick(event) {
   if (!sortMenu.hidden && !event.target.closest(".sort-field")) {
     closeSortMenu();
   }
+
+  // fix close share modal if click outside of it
+  if (!shareModal.hidden && !event.target.closest(".share-modal") && !event.target.closest("#shareQuoteBtn")) {
+    closeShareModal();
+  }
 }
 
 function handleDocumentKeydown(event) {
@@ -455,6 +473,59 @@ function displayQuote(quote) {
     quoteAuthor.textContent = `— ${quote.data[0].author || "Unknown"}`;
   }
   quoteText.classList.remove("fade");
+  shareQuoteBtn.classList.remove("disabled");
+  shareQuoteBtn.disabled = false;
+}
+
+
+function openShareQuoteModal(quote, author) {
+  // if quote not fetched yet, do not open the modal and show a toast instead
+  if (!quote || !author) {
+    showToast("No quote available to share.", "error");
+    return;
+  }
+
+  overlay.classList.add("is-active");
+  shareModal.classList.add("is-open");
+  // set the quote and author in the modal
+  shareModal.querySelector(".share-quote").textContent = quote;
+  shareModal.querySelector(".share-author").textContent = author;
+}
+
+function shareQuote(quote, author, platform) {
+  // if quote or author is missing, do not proceed and show a toast instead
+  if (!quote || !author) {
+    showToast("No quote available to share.", "error");
+    return;
+  }
+  const text = `${quote} ${author}`;
+  let shareUrl = "";
+  switch (platform) {
+    case "twitter":
+      shareUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+      break;
+    case "facebook":
+      shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(document.location.href)}&quote=${encodeURIComponent(text)}`;
+      break;
+    case "linkedin":
+      shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(document.location.href)}&summary=${encodeURIComponent(text)}`;
+      break;
+    case "whatsapp":
+      shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text + " " + document.location.href)}`;
+      break;
+    default:
+      console.warn("Unsupported share platform:", platform);
+      return;
+  }
+  window.open(shareUrl, "_blank", "noopener");
+  // close the share modal after sharing
+  closeShareModal();
+
+}
+
+function closeShareModal() {
+  shareModal.classList.remove("is-open");
+  overlay.classList.remove("is-active");
 }
 
 function showToast(message, type = "info", timeout = 10000) {
@@ -470,7 +541,11 @@ function showToast(message, type = "info", timeout = 10000) {
   const close = document.createElement("button");
   close.className = "toast-close";
   close.setAttribute("aria-label", "Dismiss");
-  close.innerHTML = "✕";
+  close.innerHTML = `
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-x-lg" viewBox="0 0 16 16">
+      <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+  </svg>
+  `;
   close.addEventListener("click", () => {
     toast.remove();
   });
