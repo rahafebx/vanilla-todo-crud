@@ -5,6 +5,7 @@ Simple yet powerful Todo app showcasing full CRUD operations. Includes dynamic f
 ![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-F7DF1E?logo=javascript)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3)
+![Parcel](https://img.shields.io/badge/Bundler-Parcel-F7DF1E?logo=parcel)
 [![Live Demo](https://img.shields.io/badge/Live-Demo-2ea44f?logo=githubpages)](https://rahafebx.github.io/vanilla-todo-crud/)
 
 ## Features
