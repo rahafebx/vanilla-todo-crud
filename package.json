@@ -4,7 +4,7 @@
   "description": "Simple yet powerful Todo app showcasing full CRUD operations. Includes dynamic filtering, inline editing, and a modern UI. No frameworks, just pure HTML, CSS, and JavaScript.",
   "scripts": {
     "start": "parcel src/index.html",
-    "build": "parcel build src/index.html"
+    "build": "parcel build src/index.html --public-url ./"
   },
   "repository": {
     "type": "git",
