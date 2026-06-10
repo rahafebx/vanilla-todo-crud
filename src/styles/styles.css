@@ -969,7 +969,8 @@ footer,
 }
 
 .task-item.editing .task-edit-input,
-.task-item.editing .save-btn {
+.task-item.editing .save-btn,
+.task-item.editing .cancel-btn {
   display: -ms-inline-grid;
   display: inline-grid;
 }
@@ -1035,6 +1036,11 @@ footer,
 }
 .delete-btn {
   background: var(--danger);
+}
+.cancel-btn {
+  display: none;
+  background: rgba(120, 134, 159, 0.12);
+  color: var(--muted);
 }
 
 .new-project {
