@@ -107,6 +107,7 @@ function handleDocumentClick(event) {
 function handleDocumentKeydown(event) {
   if (event.key === "Escape") {
     closeSortMenu(elements.sortToggle, elements.sortMenu);
+    closeShareModal(elements.overlay, elements.shareModal, elements.ogDescriptionMeta, elements.originalOgDescription);
   }
   
   // short cut to open share modal with Shift+q
