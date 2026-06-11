@@ -7,7 +7,6 @@ export function openShareQuoteModal(quote, author, overlay, shareModal, showToas
   // Update OG description for better sharing previews
   if (ogDescriptionMetaElement) {
     ogDescriptionMetaElement.setAttribute("content", `${quote} ${author}`);
-    console.log("Updated OG description for sharing:", ogDescriptionMetaElement.getAttribute("content"));
   }
 
   overlay.classList.add("is-active");
@@ -51,7 +50,6 @@ export function closeShareModal(overlay, shareModal, ogDescriptionMetaElement, o
 
       if (ogDescriptionMetaElement && ogDescriptionMetaElement.getAttribute("content") !== originalOgDescription) {
         ogDescriptionMetaElement.setAttribute("content", originalOgDescription);
-        console.log("Restored original OG description:", ogDescriptionMetaElement.getAttribute("content"));
       }
     }
   }
@@ -60,4 +58,31 @@ export function closeShareModal(overlay, shareModal, ogDescriptionMetaElement, o
       overlay.classList.remove("is-active");
     }
   }
+}
+
+export function copyQuoteToClipboard(quote, author, showToastFn, copyQuoteBtnText) {
+  if (!quote || !author) {
+    showToastFn("No quote available to copy.", "error");
+    return;
+  }
+
+  const text = `${quote} ${author}`;
+  const copyQuoteBtn = event.target;
+  const originalButtonText = copyQuoteBtnText.textContent;
+  copyQuoteBtnText.textContent = "Copied!";
+  copyQuoteBtn.disabled = true;
+  copyQuoteBtn.classList.add("disabled");
+
+  setTimeout(() => {
+    copyQuoteBtnText.textContent = originalButtonText;
+    copyQuoteBtn.disabled = false;
+    copyQuoteBtn.classList.remove("disabled");
+  }, 3000);
+
+  navigator.clipboard.writeText(text).then(() => {
+    showToastFn("Quote copied to clipboard!", "success");
+  }).catch((err) => {
+    showToastFn("Failed to copy quote.", "error");
+    console.error("Error copying quote to clipboard:", err);
+  });
 }

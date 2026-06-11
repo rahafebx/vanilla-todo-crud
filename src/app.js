@@ -3,7 +3,7 @@ import { loadTheme, applyTheme, getSystemTheme } from './modules/theme.js';
 import { initDailyQuote, fetchAndDisplayQuote, displayQuote } from './modules/quote.js';
 import { render, setGreeting, syncFilterButtons, showToast, toggleSortMenu, closeSortMenu } from './modules/ui.js';
 import { handleExport, handleImportFile } from './modules/exportImport.js';
-import { openShareQuoteModal, shareQuote, closeShareModal } from './modules/share.js';
+import { openShareQuoteModal, shareQuote, closeShareModal, copyQuoteToClipboard } from './modules/share.js';
 import { defaultState } from './modules/constants.js';
 
 // DOM Elements
@@ -29,6 +29,8 @@ const elements = {
   importFileInput: document.querySelector("#importFile"),
   toasts: document.querySelector("#toasts"),
   shareQuoteBtn: document.querySelector("#shareQuoteBtn"),
+  copyQuoteBtn: document.querySelector("#copyQuoteBtn"),
+  copyQuoteBtnText: document.querySelector("#copyQuoteBtn span"),
   shareModal: document.querySelector("#shareModal"),
   overlay: document.querySelector("#overlay"),
   ogDescriptionMeta: document.querySelector('meta[property="og:description"]'),
@@ -166,6 +168,8 @@ function init() {
       elements.shareModal
     ));
   });
+
+  elements.copyQuoteBtn.addEventListener("click", () => { copyQuoteToClipboard(elements.quoteText.textContent, elements.quoteAuthor.textContent, (msg, type) => showToast(msg, type, 10000, elements.toasts), elements.copyQuoteBtnText) });
   
   if (closeShareModalBtn) {
     closeShareModalBtn.addEventListener("click", () => closeShareModal(elements.overlay, elements.shareModal, elements.ogDescriptionMeta, elements.originalOgDescription));

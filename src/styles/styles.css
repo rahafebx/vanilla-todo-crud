@@ -1235,12 +1235,20 @@ footer,
 }
 
 .share-modal .quote-content,
-.share-modal .share-buttons {
+.share-modal .share-options {
   padding: 24px;
 }
 
 .share-modal .quote-content {
   margin-top: 24px;
+}
+
+.share-options {
+  display:flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
 }
 
 .share-buttons {
@@ -1254,7 +1262,7 @@ footer,
   justify-content: center;
 }
 
-.share-quote-btn {
+.share-quote-btn, .copy-quote-btn {
   display: inline-flex;
   -webkit-box-align: center;
   -ms-flex-align: center;
@@ -1269,7 +1277,29 @@ footer,
   height: 45px;
   transition:
     background 160ms ease,
+    color 160ms ease,
     border-color 160ms ease;
+}
+
+.copy-quote-btn {
+  width: auto;
+  min-width: 126px;
+  background: transparent;
+  color: var(--text);
+  font-size: 0.75rem;
+  padding: 0 14px;
+  letter-spacing: 0.05em;
+  background: var(--accent-soft);
+  gap: 8px;
+  justify-content: space-between;
+}
+
+.copy-quote-btn.disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background: var(--accent-soft);
+  color: var(--muted);
+  border-color: var(--border);
 }
 
 /* Toast notifications */
@@ -1550,6 +1580,11 @@ footer {
   .sort-field,
   .tool-btn {
     width: 100%;
+  }
+
+  .share-options {
+    flex-direction: column-reverse;
+    gap: 24px;
   }
 
   footer {
