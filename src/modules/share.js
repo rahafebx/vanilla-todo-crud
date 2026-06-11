@@ -1,7 +1,13 @@
-export function openShareQuoteModal(quote, author, overlay, shareModal, showToastFn) {
+export function openShareQuoteModal(quote, author, overlay, shareModal, showToastFn, ogDescriptionMetaElement, originalOgDescription) {
   if (!quote || !author) {
     showToastFn("No quote available to share.", "error");
     return;
+  }
+
+  // Update OG description for better sharing previews
+  if (ogDescriptionMetaElement) {
+    ogDescriptionMetaElement.setAttribute("content", `${quote} ${author}`);
+    console.log("Updated OG description for sharing:", ogDescriptionMetaElement.getAttribute("content"));
   }
 
   overlay.classList.add("is-active");
@@ -10,10 +16,11 @@ export function openShareQuoteModal(quote, author, overlay, shareModal, showToas
   shareModal.querySelector(".share-author").textContent = author;
 }
 
-export function shareQuote(quote, author, platform, overlay, shareModal) {
+export function shareQuote(quote, author, platform, overlay, shareModal, ogDescriptionMetaElement, originalOgDescription) {
   if (!quote || !author) {
     return;
   }
+
   const text = `${quote} ${author}`;
   let shareUrl = "";
   switch (platform) {
@@ -34,10 +41,23 @@ export function shareQuote(quote, author, platform, overlay, shareModal) {
       return;
   }
   window.open(shareUrl, "_blank", "noopener");
-  closeShareModal(overlay, shareModal);
+  // closeShareModal(overlay, shareModal, ogDescriptionMetaElement, originalOgDescription);
 }
 
-export function closeShareModal(overlay, shareModal) {
-  if (shareModal) shareModal.classList.remove("is-open");
-  if (overlay) overlay.classList.remove("is-active");
+export function closeShareModal(overlay, shareModal, ogDescriptionMetaElement, originalOgDescription) {
+  if (shareModal) {
+    if(shareModal.classList.contains("is-open")) {
+      shareModal.classList.remove("is-open");
+
+      if (ogDescriptionMetaElement && ogDescriptionMetaElement.getAttribute("content") !== originalOgDescription) {
+        ogDescriptionMetaElement.setAttribute("content", originalOgDescription);
+        console.log("Restored original OG description:", ogDescriptionMetaElement.getAttribute("content"));
+      }
+    }
+  }
+  if (overlay) {
+    if(overlay.classList.contains("is-active")) {
+      overlay.classList.remove("is-active");
+    }
+  }
 }

@@ -31,6 +31,8 @@ const elements = {
   shareQuoteBtn: document.querySelector("#shareQuoteBtn"),
   shareModal: document.querySelector("#shareModal"),
   overlay: document.querySelector("#overlay"),
+  ogDescriptionMeta: document.querySelector('meta[property="og:description"]'),
+  originalOgDescription: document.querySelector('meta[property="og:description"]').getAttribute("content")
 };
 
 const taskTemplate = document.querySelector("#taskTemplate");
@@ -96,7 +98,7 @@ function handleDocumentClick(event) {
   }
 
   if (!elements.shareModal.hidden && !event.target.closest(".share-modal") && !event.target.closest("#shareQuoteBtn")) {
-    closeShareModal(elements.overlay, elements.shareModal);
+    closeShareModal(elements.overlay, elements.shareModal, elements.ogDescriptionMeta, elements.originalOgDescription);
   }
 }
 
@@ -149,7 +151,9 @@ function init() {
       elements.quoteAuthor.textContent, 
       elements.overlay, 
       elements.shareModal,
-      (msg, type) => showToast(msg, type, 10000, elements.toasts)
+      (msg, type) => showToast(msg, type, 10000, elements.toasts),
+      elements.ogDescriptionMeta,
+      elements.originalOgDescription
     ));
   }
   
@@ -164,7 +168,7 @@ function init() {
   });
   
   if (closeShareModalBtn) {
-    closeShareModalBtn.addEventListener("click", () => closeShareModal(elements.overlay, elements.shareModal));
+    closeShareModalBtn.addEventListener("click", () => closeShareModal(elements.overlay, elements.shareModal, elements.ogDescriptionMeta, elements.originalOgDescription));
   }
 }
 
