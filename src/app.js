@@ -108,6 +108,32 @@ function handleDocumentKeydown(event) {
   if (event.key === "Escape") {
     closeSortMenu(elements.sortToggle, elements.sortMenu);
   }
+  
+  // short cut to open share modal with Shift+q
+  if (event.key.toLowerCase() === "q" && event.shiftKey) {
+    openShareQuoteModal(
+      elements.quoteText.textContent, 
+      elements.quoteAuthor.textContent, 
+      elements.overlay, 
+      elements.shareModal,
+      (msg, type) => showToast(msg, type, 10000, elements.toasts),
+      elements.ogDescriptionMeta,
+      elements.originalOgDescription
+    );
+  }
+
+  // short cut to copy quote with Shift+c
+  if (event.key.toLowerCase() === "c" && event.shiftKey) {
+    copyQuoteToClipboard(elements.quoteText.textContent, elements.quoteAuthor.textContent, (msg, type) => showToast(msg, type, 10000, elements.toasts), elements.copyQuoteBtnText);
+  }
+
+  // sort tasks newest with Shift+arrow down, oldest first with Shift+arrow up
+  if (event.shiftKey && (event.key === "ArrowDown" || event.key === "ArrowUp")) {
+    const newSort = event.key === "ArrowDown" ? "created-desc" : "created-asc";
+    state.sort = newSort;    
+    closeSortMenu(elements.sortToggle, elements.sortMenu);
+    persistAndRender(false);
+  }
 }
 
 // Initialization
