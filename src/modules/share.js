@@ -1,4 +1,12 @@
-export function openShareQuoteModal(quote, author, overlay, shareModal, showToastFn, ogDescriptionMetaElement, originalOgDescription) {
+export function openShareQuoteModal(
+  quote,
+  author,
+  overlay,
+  shareModal,
+  showToastFn,
+  ogDescriptionMetaElement,
+  originalOgDescription,
+) {
   if (!quote || !author) {
     showToastFn("No quote available to share.", "error");
     return;
@@ -15,7 +23,15 @@ export function openShareQuoteModal(quote, author, overlay, shareModal, showToas
   shareModal.querySelector(".share-author").textContent = author;
 }
 
-export function shareQuote(quote, author, platform, overlay, shareModal, ogDescriptionMetaElement, originalOgDescription) {
+export function shareQuote(
+  quote,
+  author,
+  platform,
+  overlay,
+  shareModal,
+  ogDescriptionMetaElement,
+  originalOgDescription,
+) {
   if (!quote || !author) {
     return;
   }
@@ -35,6 +51,9 @@ export function shareQuote(quote, author, platform, overlay, shareModal, ogDescr
     case "whatsapp":
       shareUrl = `https://api.whatsapp.com/send?text=${encodeURIComponent(text + " " + document.location.href)}`;
       break;
+    case "bluesky":
+      shareUrl = `https://bsky.app/intent/compose?text=${encodeURIComponent(text)}`;
+      break;
     default:
       console.warn("Unsupported share platform:", platform);
       return;
@@ -43,24 +62,38 @@ export function shareQuote(quote, author, platform, overlay, shareModal, ogDescr
   // closeShareModal(overlay, shareModal, ogDescriptionMetaElement, originalOgDescription);
 }
 
-export function closeShareModal(overlay, shareModal, ogDescriptionMetaElement, originalOgDescription) {
+export function closeShareModal(
+  overlay,
+  shareModal,
+  ogDescriptionMetaElement,
+  originalOgDescription,
+) {
   if (shareModal) {
-    if(shareModal.classList.contains("is-open")) {
+    if (shareModal.classList.contains("is-open")) {
       shareModal.classList.remove("is-open");
 
-      if (ogDescriptionMetaElement && ogDescriptionMetaElement.getAttribute("content") !== originalOgDescription) {
+      if (
+        ogDescriptionMetaElement &&
+        ogDescriptionMetaElement.getAttribute("content") !==
+          originalOgDescription
+      ) {
         ogDescriptionMetaElement.setAttribute("content", originalOgDescription);
       }
     }
   }
   if (overlay) {
-    if(overlay.classList.contains("is-active")) {
+    if (overlay.classList.contains("is-active")) {
       overlay.classList.remove("is-active");
     }
   }
 }
 
-export function copyQuoteToClipboard(quote, author, showToastFn, copyQuoteBtnText) {
+export function copyQuoteToClipboard(
+  quote,
+  author,
+  showToastFn,
+  copyQuoteBtnText,
+) {
   if (!quote || !author) {
     showToastFn("No quote available to copy.", "error");
     return;
@@ -79,10 +112,13 @@ export function copyQuoteToClipboard(quote, author, showToastFn, copyQuoteBtnTex
     copyQuoteBtn.classList.remove("disabled");
   }, 3000);
 
-  navigator.clipboard.writeText(text).then(() => {
-    showToastFn("Quote copied to clipboard!", "success");
-  }).catch((err) => {
-    showToastFn("Failed to copy quote.", "error");
-    console.error("Error copying quote to clipboard:", err);
-  });
+  navigator.clipboard
+    .writeText(text)
+    .then(() => {
+      showToastFn("Quote copied to clipboard!", "success");
+    })
+    .catch((err) => {
+      showToastFn("Failed to copy quote.", "error");
+      console.error("Error copying quote to clipboard:", err);
+    });
 }

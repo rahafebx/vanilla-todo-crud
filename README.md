@@ -8,6 +8,7 @@ Simple yet powerful Todo app showcasing full CRUD operations. Includes dynamic f
 ![Parcel](https://img.shields.io/badge/Bundler-Parcel-F7DF1E?logo=parcel)
 [![Live Demo](https://img.shields.io/badge/Live-Demo-2ea44f?logo=githubpages)](https://rahafebx.github.io/vanilla-todo-crud/)
 
+[![app screenshot](https://raw.githubusercontent.com/rahafebx/vanilla-todo-crud/main/app_showcase.png)](https://rahafebx.github.io/vanilla-todo-crud/)
 ## Features
 - Create, Read, Update, Delete (CRUD) tasks
 - Filter tasks by status (All, Active, Completed)
