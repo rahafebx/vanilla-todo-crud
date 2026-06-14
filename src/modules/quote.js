@@ -33,7 +33,6 @@ export async function fetchAndDisplayQuote(displayQuoteFn) {
     const fallbackQuote = getRandomFallbackQuote(MOTIVE_QUOTES);
     saveQuote(fallbackQuote);
     displayQuoteFn(fallbackQuote);
-    console.log(fallbackQuote);
   }
 }
 
