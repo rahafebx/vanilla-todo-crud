@@ -30,6 +30,7 @@ export async function fetchAndDisplayQuote(displayQuoteFn) {
     displayQuoteFn(quote);
   } catch (error) {
     console.error("Error fetching quote:", error);
+    const fallbackQuote = getRandomFallbackQuote(MOTIVE_QUOTES);
     saveQuote(fallbackQuote);
     displayQuoteFn(fallbackQuote);
     console.log(fallbackQuote);
