@@ -1,4 +1,5 @@
 import { QUOTE_STORAGE_KEY, QUOTE_API } from './constants.js';
+import { MOTIVE_QUOTES } from './quotes.js';
 
 export function loadQuote() {
   const raw = localStorage.getItem(QUOTE_STORAGE_KEY);
@@ -29,14 +30,9 @@ export async function fetchAndDisplayQuote(displayQuoteFn) {
     displayQuoteFn(quote);
   } catch (error) {
     console.error("Error fetching quote:", error);
-    displayQuoteFn({
-      "data": [
-        {
-          "quote": "Every day is a new opportunity to be better.",
-          "author": "Rahafebx",
-        }
-      ]
-    });
+    saveQuote(fallbackQuote);
+    displayQuoteFn(fallbackQuote);
+    console.log(fallbackQuote);
   }
 }
 
@@ -50,6 +46,10 @@ export function displayQuote(quote, quoteText, quoteAuthor, shareQuoteBtn) {
     shareQuoteBtn.classList.remove("disabled");
     shareQuoteBtn.disabled = false;
   }
+}
+
+function getRandomFallbackQuote(quotes) {
+  return {"data": [quotes[Math.floor(Math.random() * quotes.length)]]};
 }
 
 export function initDailyQuote(quoteText, quoteAuthor, shareQuoteBtn, displayQuoteFn, fetchAndDisplayQuoteFn) {
