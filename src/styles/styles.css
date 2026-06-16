@@ -1507,6 +1507,22 @@ button:active {
   color: var(--warning);
 }
 
+.cursor-dot {
+  width: 20px;
+  height: 20px;
+  background-color: var(--accent-soft);
+  border-radius: 50%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  z-index: 9999999999;
+  transition: border-color 0.5s;
+  border: 2px solid transparent;
+}
+
 @-webkit-keyframes toast-in {
   from {
     opacity: 0;

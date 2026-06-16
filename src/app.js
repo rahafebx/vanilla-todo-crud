@@ -53,11 +53,16 @@ const elements = {
   originalOgDescription: document
     .querySelector('meta[property="og:description"]')
     .getAttribute("content"),
+  dot: document.querySelector(".cursor-dot"),
 };
 
 const taskTemplate = document.querySelector("#taskTemplate");
 const shareQuoteBtns = document.querySelectorAll(".share-quote-btn");
 const closeShareModalBtn = document.querySelector("#closeShareModal");
+const mouse = { x: 0, y: 0 };
+const dotPos = { x: 0, y: 0 };
+const ease = 0.05;
+let isMoving = false;
 
 // State
 let state = loadState();
@@ -183,6 +188,13 @@ function handleDocumentKeydown(event) {
   }
 }
 
+function animateDot() {
+  dotPos.x += (mouse.x - dotPos.x) * ease;
+  dotPos.y += (mouse.y - dotPos.y) * ease;
+  elements.dot.style.transform = `translate3d(${dotPos.x}px, ${dotPos.y}px, 0) translate(-50%, -50%)`;
+  requestAnimationFrame(animateDot);
+}
+
 // Initialization
 function init() {
   setGreeting(elements.greeting);
@@ -197,6 +209,21 @@ function init() {
     fetchAndDisplayQuote,
   );
   persistAndRender();
+
+  window.addEventListener("mousemove", (e) => {
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    if (!isMoving) {
+      elements.dot.style.opacity = "1";
+      isMoving = true;
+    }
+  });
+
+  requestAnimationFrame(animateDot);
+  window.addEventListener("mouseout", () => {
+    elements.dot.style.opacity = "0";
+    isMoving = false;
+  });
 
   elements.taskForm.addEventListener("submit", handleAddTask);
   elements.searchInput.addEventListener("input", handleSearch);
