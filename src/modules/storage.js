@@ -1,4 +1,5 @@
-import { STORAGE_KEY, defaultState } from './constants.js';
+import { STORAGE_KEY } from './constants.js';
+import { defaultState } from './state.js';
 
 export function loadState() {
   const raw = localStorage.getItem(STORAGE_KEY);

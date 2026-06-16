@@ -65,7 +65,7 @@ body {
     ),
     radial-gradient(
       circle at 82% 72%,
-      rgba(56, 193, 114, 0.18),
+      rgba(56, 150, 193, 0.18),
       transparent 30%
     ),
     linear-gradient(135deg, #eef2f8 0%, #dde4f1 100%);
@@ -113,7 +113,7 @@ body::before {
     ),
     radial-gradient(
       circle at 82% 72%,
-      rgba(56, 193, 114, 0.14),
+      rgba(56, 163, 193, 0.14),
       transparent 30%
     ),
     linear-gradient(135deg, #0a0d14 0%, #111824 100%);
@@ -295,6 +295,8 @@ button:active {
 .sidebar-card {
   border-radius: var(--radius-lg);
   padding: 18px;
+  -webkit-animation: rise 220ms ease;
+  animation: rise 220ms ease;
 }
 
 .sidebar-label {
@@ -806,6 +808,8 @@ button:active {
   padding: 22px;
   max-height: 510px;
   overflow: hidden;
+  -webkit-animation: rise 220ms ease;
+  animation: rise 220ms ease;
 }
 
 .card-head {
@@ -1087,6 +1091,8 @@ button:active {
   display: grid;
   place-items: center;
   text-align: center;
+  -webkit-animation: rise 220ms ease;
+  animation: rise 220ms ease;
 }
 
 .quote-content {
@@ -1327,6 +1333,8 @@ button:active {
 .shortcodes,
 .support {
   padding: 22px;
+  -webkit-animation: rise 220ms ease;
+  animation: rise 220ms ease;
 }
 
 .shortcodes-list,
@@ -1474,11 +1482,29 @@ button:active {
 .toast--success {
   border-left: 4px solid var(--success);
 }
+.toast--success .toast-icon {
+  color: var(--success);
+}
+
 .toast--error {
   border-left: 4px solid var(--danger);
 }
+.toast--error .toast-icon {
+  color: var(--danger);
+}
+
 .toast--info {
   border-left: 4px solid var(--accent);
+}
+.toast--info .toast-icon {
+  color: var(--accent);
+}
+
+.toast--warning {
+  border-left: 4px solid var(--warning);
+}
+.toast--warning .toast-icon {
+  color: var(--warning);
 }
 
 @-webkit-keyframes toast-in {
@@ -1570,10 +1596,16 @@ button:active {
     opacity: 1;
   }
 }
+
 @media (max-width: 1100px) {
   .app-shell {
     -ms-grid-columns: 1fr;
     grid-template-columns: 1fr;
+    height: auto;
+  }
+
+  .main-content {
+    padding: 18px;
     height: auto;
   }
 
@@ -1598,11 +1630,6 @@ button:active {
 }
 
 @media (max-width: 720px) {
-  .main-content {
-    padding: 18px;
-    height: auto;
-  }
-
   .search-field {
     min-width: unset;
     width: 100%;
