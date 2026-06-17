@@ -12,6 +12,7 @@
   /* darker accent version */
   --accent-darker: #1a6ccf;
   --accent-soft: rgba(42, 137, 255, 0.15);
+  --accent-soft-lighter: rgba(42, 137, 255, 0.08);
   --success: #38c172;
   --danger: #ff5f5f;
   --warning: #ffbe3c;
@@ -22,6 +23,13 @@
   --stats-total: rgba(120, 134, 159, 0.15);
   --stats-open: rgba(255, 95, 95, 0.15);
   --stats-done: rgba(56, 193, 114, 0.15);
+  /* body linear gradient color variables */
+  --gradient-start: #eef2f8;
+  --gradient-end: #dde4f1;
+
+  /* body radial gradient variables */
+  --radial-1: rgba(42, 137, 255, 0.24);
+  --radial-2: rgba(56, 150, 193, 0.18);
 }
 
 [data-theme="dark"] {
@@ -37,72 +45,150 @@
   --accent: #5ba7ff;
   --accent-darker: #3a7fd4;
   --accent-soft: rgba(91, 167, 255, 0.14);
+  --accent-soft-lighter: rgba(139, 191, 255, 0.08);
   --success: #55d18b;
   --danger: #ff6b7a;
   --warning: #f7c95f;
   --stats-total: rgba(120, 134, 159, 0.08);
   --stats-open: rgba(255, 95, 95, 0.08);
   --stats-done: rgba(56, 193, 114, 0.08);
+  /* body linear gradient color variables */
+  --gradient-start: #11181c;
+  --gradient-end: #0a0d14;
+
+  /* body radial gradient variables */
+  --radial-1: rgba(42, 137, 255, 0.12);
+  --radial-2: rgba(56, 150, 193, 0.1);
 }
 
 [data-color="green"] {
   --accent: #38c172;
   --accent-darker: #259c54;
   --accent-soft: rgba(56, 193, 114, 0.15);
+  --accent-soft-lighter: rgba(56, 193, 114, 0.08);
+  /* body linear gradient color variables */
+  --gradient-start: #d8f3e3;
+  --gradient-end: #c1e7c9;
+  /* body radial gradient variables */
+  --radial-1: rgba(56, 193, 114, 0.24);
+  --radial-2: rgba(56, 193, 114, 0.18);
 }
 
 [data-theme="dark"][data-color="green"] {
   --accent: #55d18b;
   --accent-darker: #2d9d5a;
   --accent-soft: rgba(85, 209, 139, 0.14);
+  --accent-soft-lighter: rgba(85, 209, 139, 0.08);
+  /* body linear gradient color variables */
+  --gradient-start: #18321f;
+  --gradient-end: #0f1f14;
+  /* body radial gradient variables */
+  --radial-1: rgba(85, 209, 139, 0.12);
+  --radial-2: rgba(85, 209, 139, 0.1);
 }
 
 [data-color="purple"] {
   --accent: #8b5cf6;
   --accent-darker: #6025c4;
   --accent-soft: rgba(139, 92, 246, 0.15);
+  --accent-soft-lighter: rgba(139, 92, 246, 0.08);
+  /* body linear gradient color variables */
+  --gradient-start: #f3e8ff;
+  --gradient-end: #e5c7ff;
+  /* body radial gradient variables */
+  --radial-1: rgba(139, 92, 246, 0.24);
+  --radial-2: rgba(139, 92, 246, 0.18);
 }
 
 [data-theme="dark"][data-color="purple"] {
   --accent: #a78bfa;
   --accent-darker: #7548e0;
   --accent-soft: rgba(167, 139, 250, 0.14);
+  --accent-soft-lighter: rgba(167, 139, 250, 0.08);
+  /* body linear gradient color variables */
+  --gradient-start: #2c1e4f;
+  --gradient-end: #1a1030;
+  /* body radial gradient variables */
+  --radial-1: rgba(167, 139, 250, 0.12);
+  --radial-2: rgba(167, 139, 250, 0.1);
 }
 
 [data-color="orange"] {
   --accent: #f59e0b;
   --accent-darker: #c4850a;
   --accent-soft: rgba(245, 158, 11, 0.15);
+  --accent-soft-lighter: rgba(245, 158, 11, 0.08);
+  /* body linear gradient color variables */
+  --gradient-start: #fff4e1;
+  --gradient-end: #ffe0b3;
+  /* body radial gradient variables */
+  --radial-1: rgba(245, 158, 11, 0.24);
+  --radial-2: rgba(245, 158, 11, 0.18);
 }
 
 [data-theme="dark"][data-color="orange"] {
   --accent: #fbbf24;
   --accent-darker: #d4950e;
   --accent-soft: rgba(251, 191, 36, 0.14);
+  --accent-soft-lighter: rgba(251, 191, 36, 0.08);
+  /* body linear gradient color variables */
+  --gradient-start: #4a2d0a;
+  --gradient-end: #2a1805;
+  /* body radial gradient variables */
+  --radial-1: rgba(251, 191, 36, 0.12);
+  --radial-2: rgba(251, 191, 36, 0.1);
 }
 
 [data-color="pink"] {
   --accent: #ec4899;
   --accent-darker: #be1d73;
   --accent-soft: rgba(236, 72, 153, 0.15);
+  --accent-soft-lighter: rgba(236, 72, 153, 0.08);
+  /* body linear gradient color variables */
+  --gradient-start: #ffe4f0;
+  --gradient-end: #ffbde0;
+  /* body radial gradient variables */
+  --radial-1: rgba(236, 72, 153, 0.24);
+  --radial-2: rgba(236, 72, 153, 0.18);
 }
 
 [data-theme="dark"][data-color="pink"] {
   --accent: #f472b6;
   --accent-darker: #cc3f87;
   --accent-soft: rgba(244, 114, 182, 0.14);
+  --accent-soft-lighter: rgba(244, 114, 182, 0.08);
+  /* body linear gradient color variables */
+  --gradient-start: #4a1e3c;
+  --gradient-end: #2a1021;
+  /* body radial gradient variables */
+  --radial-1: rgba(244, 114, 182, 0.12);
+  --radial-2: rgba(244, 114, 182, 0.1);
 }
 
 [data-color="teal"] {
   --accent: #14b8a6;
   --accent-darker: #0d8a7a;
   --accent-soft: rgba(20, 184, 166, 0.15);
+  --accent-soft-lighter: rgba(20, 184, 166, 0.08);
+  /* body linear gradient color variables */
+  --gradient-start: #d1f5f3;
+  --gradient-end: #a6e8de;
+  /* body radial gradient variables */
+  --radial-1: rgba(20, 184, 166, 0.24);
+  --radial-2: rgba(20, 184, 166, 0.18);
 }
 
 [data-theme="dark"][data-color="teal"] {
   --accent: #5eead4;
   --accent-darker: #1ab6a0;
   --accent-soft: rgba(94, 234, 212, 0.14);
+  --accent-soft-lighter: rgba(94, 234, 212, 0.08);
+  /* body linear gradient color variables */
+  --gradient-start: #0a4035;
+  --gradient-end: #042117;
+  /* body radial gradient variables */
+  --radial-1: rgba(94, 234, 212, 0.12);
+  --radial-2: rgba(94, 234, 212, 0.1);
 }
 
 * {
@@ -121,17 +207,9 @@ body {
   font-family: Inter, system-ui, sans-serif;
   color: var(--text);
   background:
-    radial-gradient(
-      circle at 18% 18%,
-      rgba(42, 137, 255, 0.24),
-      transparent 25%
-    ),
-    radial-gradient(
-      circle at 82% 72%,
-      rgba(56, 150, 193, 0.18),
-      transparent 30%
-    ),
-    linear-gradient(135deg, #eef2f8 0%, #dde4f1 100%);
+    radial-gradient(circle at 18% 18%, var(--radial-1), transparent 25%),
+    radial-gradient(circle at 82% 72%, var(--radial-2), transparent 30%),
+    linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
   position: relative;
 }
 
@@ -169,17 +247,9 @@ body::before {
 
 [data-theme="dark"] body {
   background:
-    radial-gradient(
-      circle at 18% 18%,
-      rgba(42, 137, 255, 0.16),
-      transparent 25%
-    ),
-    radial-gradient(
-      circle at 82% 72%,
-      rgba(56, 163, 193, 0.14),
-      transparent 30%
-    ),
-    linear-gradient(135deg, #0a0d14 0%, #111824 100%);
+    radial-gradient(circle at 18% 18%, var(--radial-1), transparent 25%),
+    radial-gradient(circle at 82% 72%, var(--radial-2), transparent 30%),
+    linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
 }
 
 .no-scrollbars::-webkit-scrollbar {
@@ -321,8 +391,8 @@ button:active {
 .nav-item.active {
   background: linear-gradient(
     135deg,
-    rgba(42, 137, 255, 0.18),
-    rgba(42, 137, 255, 0.08)
+    var(--accent-soft),
+    var(--accent-soft-lighter)
   );
   -webkit-box-shadow: inset 0 0 0 1px rgba(42, 137, 255, 0.12);
   box-shadow: inset 0 0 0 1px rgba(42, 137, 255, 0.12);
@@ -535,8 +605,12 @@ button:active {
 
 .color-option.active {
   border-color: var(--text);
-  -webkit-box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--swatch);
-  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--swatch);
+  -webkit-box-shadow:
+    0 0 0 2px var(--bg),
+    0 0 0 4px var(--swatch);
+  box-shadow:
+    0 0 0 2px var(--bg),
+    0 0 0 4px var(--swatch);
 }
 
 .sidebar-footer {
@@ -649,7 +723,7 @@ button:active {
 }
 
 .tool-btn.export {
-  background: rgba(42, 137, 255, 0.12);
+  background: var(--accent-soft);
   color: var(--accent);
 }
 
