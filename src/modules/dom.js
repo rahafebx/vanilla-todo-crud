@@ -7,6 +7,7 @@ export const $ = {
   sortLabel: document.querySelector("#sortLabel"),
   sortMenu: document.querySelector("#sortMenu"),
   themeToggle: document.querySelector("#themeToggle"),
+  colorOptions: document.querySelectorAll(".color-option"),
   greeting: document.querySelector("#greeting"),
   taskSummary: document.querySelector("#taskSummary"),
   statTotal: document.querySelector("#stat-total"),

@@ -1,6 +1,6 @@
 import { $, ORIGINAL_OG_DESCRIPTION } from "./modules/dom.js";
 import { loadState, saveState } from "./modules/storage.js";
-import { loadTheme, applyTheme } from "./modules/theme.js";
+import { loadTheme, applyTheme, loadColor, applyThemeColor } from "./modules/theme.js";
 import {
   initDailyQuote,
   fetchAndDisplayQuote,
@@ -152,6 +152,8 @@ function init() {
   setGreeting($.greeting);
   const theme = loadTheme();
   applyTheme(theme, $.themeToggle);
+  const color = loadColor();
+  applyThemeColor(color, $.colorOptions);
   syncFilterButtons(state);
   initDailyQuote(
     $.quoteText,
@@ -167,6 +169,11 @@ function init() {
   $.taskForm.addEventListener("submit", handleAddTask);
   $.searchInput.addEventListener("input", handleSearch);
   $.themeToggle.addEventListener("change", handleThemeToggle);
+  $.colorOptions.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      applyThemeColor(btn.dataset.color, $.colorOptions);
+    });
+  });
   $.sortToggle.addEventListener("click", () =>
     toggleSortMenu($.sortToggle, $.sortMenu),
   );

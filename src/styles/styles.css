@@ -9,6 +9,8 @@
   --border: rgba(36, 49, 72, 0.08);
   --shadow: 0 20px 50px rgba(52, 66, 91, 0.14);
   --accent: #2a89ff;
+  /* darker accent version */
+  --accent-darker: #1a6ccf;
   --accent-soft: rgba(42, 137, 255, 0.15);
   --success: #38c172;
   --danger: #ff5f5f;
@@ -33,6 +35,7 @@
   --border: rgba(255, 255, 255, 0.08);
   --shadow: 0 24px 60px rgba(0, 0, 0, 0.4);
   --accent: #5ba7ff;
+  --accent-darker: #3a7fd4;
   --accent-soft: rgba(91, 167, 255, 0.14);
   --success: #55d18b;
   --danger: #ff6b7a;
@@ -40,6 +43,66 @@
   --stats-total: rgba(120, 134, 159, 0.08);
   --stats-open: rgba(255, 95, 95, 0.08);
   --stats-done: rgba(56, 193, 114, 0.08);
+}
+
+[data-color="green"] {
+  --accent: #38c172;
+  --accent-darker: #259c54;
+  --accent-soft: rgba(56, 193, 114, 0.15);
+}
+
+[data-theme="dark"][data-color="green"] {
+  --accent: #55d18b;
+  --accent-darker: #2d9d5a;
+  --accent-soft: rgba(85, 209, 139, 0.14);
+}
+
+[data-color="purple"] {
+  --accent: #8b5cf6;
+  --accent-darker: #6025c4;
+  --accent-soft: rgba(139, 92, 246, 0.15);
+}
+
+[data-theme="dark"][data-color="purple"] {
+  --accent: #a78bfa;
+  --accent-darker: #7548e0;
+  --accent-soft: rgba(167, 139, 250, 0.14);
+}
+
+[data-color="orange"] {
+  --accent: #f59e0b;
+  --accent-darker: #c4850a;
+  --accent-soft: rgba(245, 158, 11, 0.15);
+}
+
+[data-theme="dark"][data-color="orange"] {
+  --accent: #fbbf24;
+  --accent-darker: #d4950e;
+  --accent-soft: rgba(251, 191, 36, 0.14);
+}
+
+[data-color="pink"] {
+  --accent: #ec4899;
+  --accent-darker: #be1d73;
+  --accent-soft: rgba(236, 72, 153, 0.15);
+}
+
+[data-theme="dark"][data-color="pink"] {
+  --accent: #f472b6;
+  --accent-darker: #cc3f87;
+  --accent-soft: rgba(244, 114, 182, 0.14);
+}
+
+[data-color="teal"] {
+  --accent: #14b8a6;
+  --accent-darker: #0d8a7a;
+  --accent-soft: rgba(20, 184, 166, 0.15);
+}
+
+[data-theme="dark"][data-color="teal"] {
+  --accent: #5eead4;
+  --accent-darker: #1ab6a0;
+  --accent-soft: rgba(94, 234, 212, 0.14);
 }
 
 * {
@@ -181,7 +244,7 @@ button:active {
   border-radius: 16px;
   font-weight: 800;
   color: white;
-  background: linear-gradient(135deg, var(--accent), #164fa3);
+  background: linear-gradient(135deg, var(--accent), var(--accent-darker));
   -webkit-box-shadow: var(--shadow);
   box-shadow: var(--shadow);
 }
@@ -414,6 +477,77 @@ button:active {
   -webkit-transform: translateX(22px);
   -ms-transform: translateX(22px);
   transform: translateX(22px);
+}
+
+.theme-color-section {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.color-options {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  gap: 8px;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+
+.color-option {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: var(--swatch);
+  cursor: pointer;
+  padding: 0;
+  -webkit-transition:
+    border-color 160ms ease,
+    -webkit-transform 160ms ease,
+    -webkit-box-shadow 160ms ease;
+  transition:
+    border-color 160ms ease,
+    -webkit-transform 160ms ease,
+    -webkit-box-shadow 160ms ease;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    -webkit-transform 160ms ease,
+    -webkit-box-shadow 160ms ease;
+}
+
+.color-option:hover {
+  -webkit-transform: scale(1.15);
+  -ms-transform: scale(1.15);
+  transform: scale(1.15);
+}
+
+.color-option.active {
+  border-color: var(--text);
+  -webkit-box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--swatch);
+  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--swatch);
+}
+
+.sidebar-footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  gap: 14px;
 }
 
 .main-content {
@@ -763,7 +897,7 @@ button:active {
   font: inherit;
   font-weight: 700;
   color: white;
-  background: linear-gradient(135deg, var(--accent), #1b67d2);
+  background: linear-gradient(135deg, var(--accent), var(--accent-darker));
   -webkit-box-shadow: 0 14px 24px rgba(42, 137, 255, 0.25);
   box-shadow: 0 14px 24px rgba(42, 137, 255, 0.25);
   cursor: pointer;
@@ -1148,7 +1282,7 @@ button:active {
 .share-btn {
   padding: 14px 20px;
   color: white;
-  background: linear-gradient(135deg, var(--accent), #1b67d2);
+  background: linear-gradient(135deg, var(--accent), var(--accent-darker));
   -webkit-box-shadow: 0 14px 24px rgba(42, 137, 255, 0.25);
   box-shadow: 0 14px 24px rgba(42, 137, 255, 0.25);
   cursor: pointer;
