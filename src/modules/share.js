@@ -100,7 +100,7 @@ export function copyQuoteToClipboard(
   }
 
   const text = `${quote} ${author}`;
-  const copyQuoteBtn = event.target;
+  const copyQuoteBtn = copyQuoteBtnText.closest("button");
   const originalButtonText = copyQuoteBtnText.textContent;
   copyQuoteBtnText.textContent = "Copied!";
   copyQuoteBtn.disabled = true;

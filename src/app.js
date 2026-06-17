@@ -1,5 +1,6 @@
+import { $, ORIGINAL_OG_DESCRIPTION } from "./modules/dom.js";
 import { loadState, saveState } from "./modules/storage.js";
-import { loadTheme, applyTheme, getSystemTheme } from "./modules/theme.js";
+import { loadTheme, applyTheme } from "./modules/theme.js";
 import {
   initDailyQuote,
   fetchAndDisplayQuote,
@@ -9,10 +10,12 @@ import {
   render,
   setGreeting,
   syncFilterButtons,
-  showToast,
+} from "./modules/ui.js";
+import { showToast } from "./modules/toast.js";
+import {
   toggleSortMenu,
   closeSortMenu,
-} from "./modules/ui.js";
+} from "./modules/sortMenu.js";
 import { handleExport, handleImportFile } from "./modules/exportImport.js";
 import {
   openShareQuoteModal,
@@ -21,48 +24,7 @@ import {
   copyQuoteToClipboard,
 } from "./modules/share.js";
 import { defaultState } from "./modules/state.js";
-
-// DOM Elements
-const elements = {
-  taskForm: document.querySelector("#taskForm"),
-  taskInput: document.querySelector("#taskInput"),
-  taskList: document.querySelector("#taskList"),
-  searchInput: document.querySelector("#searchInput"),
-  sortToggle: document.querySelector("#sortToggle"),
-  sortLabel: document.querySelector("#sortLabel"),
-  sortMenu: document.querySelector("#sortMenu"),
-  themeToggle: document.querySelector("#themeToggle"),
-  greeting: document.querySelector("#greeting"),
-  taskSummary: document.querySelector("#taskSummary"),
-  statTotal: document.querySelector("#stat-total"),
-  statOpen: document.querySelector("#stat-open"),
-  statDone: document.querySelector("#stat-done"),
-  personalProgress: document.querySelector("#personalProgress"),
-  quoteText: document.querySelector("#quoteText"),
-  quoteAuthor: document.querySelector("#quoteAuthor"),
-  exportBtn: document.querySelector("#exportBtn"),
-  importBtn: document.querySelector("#importBtn"),
-  importFileInput: document.querySelector("#importFile"),
-  toasts: document.querySelector("#toasts"),
-  shareQuoteBtn: document.querySelector("#shareQuoteBtn"),
-  copyQuoteBtn: document.querySelector("#copyQuoteBtn"),
-  copyQuoteBtnText: document.querySelector("#copyQuoteBtn span"),
-  shareModal: document.querySelector("#shareModal"),
-  overlay: document.querySelector("#overlay"),
-  ogDescriptionMeta: document.querySelector('meta[property="og:description"]'),
-  originalOgDescription: document
-    .querySelector('meta[property="og:description"]')
-    .getAttribute("content"),
-  dot: document.querySelector(".cursor-dot"),
-};
-
-const taskTemplate = document.querySelector("#taskTemplate");
-const shareQuoteBtns = document.querySelectorAll(".share-quote-btn");
-const closeShareModalBtn = document.querySelector("#closeShareModal");
-const mouse = { x: 0, y: 0 };
-const dotPos = { x: 0, y: 0 };
-const ease = 0.05;
-let isMoving = false;
+import { initCursor } from "./modules/cursor.js";
 
 // State
 let state = loadState();
@@ -72,15 +34,15 @@ function persistAndRender(save = true) {
   if (save) {
     saveState(state);
   }
-  render(state, elements, taskTemplate, persistAndRender, (msg, type) =>
-    showToast(msg, type, 10000, elements.toasts),
+  render(state, $, $.taskTemplate, persistAndRender, (msg, type) =>
+    showToast(msg, type, 10000, $.toasts),
   );
 }
 
 function handleAddTask(event) {
   event.preventDefault();
 
-  const title = elements.taskInput.value.trim();
+  const title = $.taskInput.value.trim();
 
   if (!title) {
     return;
@@ -94,145 +56,122 @@ function handleAddTask(event) {
     updatedAt: Date.now(),
   });
 
-  elements.taskInput.value = "";
+  $.taskInput.value = "";
   persistAndRender();
 }
 
 function handleSearch(event) {
   state.search = event.target.value;
-  render(state, elements, taskTemplate, persistAndRender, (msg, type) =>
-    showToast(msg, type, 10000, elements.toasts),
+  render(state, $, $.taskTemplate, persistAndRender, (msg, type) =>
+    showToast(msg, type, 10000, $.toasts),
   );
 }
 
 function handleSort(sortValue) {
   state.sort = sortValue;
-  closeSortMenu(elements.sortToggle, elements.sortMenu);
+  closeSortMenu($.sortToggle, $.sortMenu);
   persistAndRender(false);
 }
 
 function handleFilterChange(filter, button) {
   state.filter = filter;
   syncFilterButtons(state, button);
-  render(state, elements, taskTemplate, persistAndRender, (msg, type) =>
-    showToast(msg, type, 10000, elements.toasts),
+  render(state, $, $.taskTemplate, persistAndRender, (msg, type) =>
+    showToast(msg, type, 10000, $.toasts),
   );
 }
 
 function handleThemeToggle(event) {
-  applyTheme(event.target.checked ? "dark" : "light", elements.themeToggle);
+  applyTheme(event.target.checked ? "dark" : "light", $.themeToggle);
 }
 
 function handleDocumentClick(event) {
-  if (!elements.sortMenu.hidden && !event.target.closest(".sort-field")) {
-    closeSortMenu(elements.sortToggle, elements.sortMenu);
+  if (!$.sortMenu.hidden && !event.target.closest(".sort-field")) {
+    closeSortMenu($.sortToggle, $.sortMenu);
   }
 
   if (
-    !elements.shareModal.hidden &&
+    !$.shareModal.hidden &&
     !event.target.closest(".share-modal") &&
     !event.target.closest("#shareQuoteBtn")
   ) {
     closeShareModal(
-      elements.overlay,
-      elements.shareModal,
-      elements.ogDescriptionMeta,
-      elements.originalOgDescription,
+      $.overlay,
+      $.shareModal,
+      $.ogDescriptionMeta,
+      ORIGINAL_OG_DESCRIPTION,
     );
   }
 }
 
 function handleDocumentKeydown(event) {
   if (event.key === "Escape") {
-    closeSortMenu(elements.sortToggle, elements.sortMenu);
+    closeSortMenu($.sortToggle, $.sortMenu);
     closeShareModal(
-      elements.overlay,
-      elements.shareModal,
-      elements.ogDescriptionMeta,
-      elements.originalOgDescription,
+      $.overlay,
+      $.shareModal,
+      $.ogDescriptionMeta,
+      ORIGINAL_OG_DESCRIPTION,
     );
   }
 
-  // short cut to open share modal with Shift+q
   if (event.key.toLowerCase() === "q" && event.shiftKey) {
     openShareQuoteModal(
-      elements.quoteText.textContent,
-      elements.quoteAuthor.textContent,
-      elements.overlay,
-      elements.shareModal,
-      (msg, type) => showToast(msg, type, 10000, elements.toasts),
-      elements.ogDescriptionMeta,
-      elements.originalOgDescription,
+      $.quoteText.textContent,
+      $.quoteAuthor.textContent,
+      $.overlay,
+      $.shareModal,
+      (msg, type) => showToast(msg, type, 10000, $.toasts),
+      $.ogDescriptionMeta,
+      ORIGINAL_OG_DESCRIPTION,
     );
   }
 
-  // short cut to copy quote with Shift+c
   if (event.key.toLowerCase() === "c" && event.shiftKey) {
     copyQuoteToClipboard(
-      elements.quoteText.textContent,
-      elements.quoteAuthor.textContent,
-      (msg, type) => showToast(msg, type, 10000, elements.toasts),
-      elements.copyQuoteBtnText,
+      $.quoteText.textContent,
+      $.quoteAuthor.textContent,
+      (msg, type) => showToast(msg, type, 10000, $.toasts),
+      $.copyQuoteBtnText,
     );
   }
 
-  // sort tasks newest with Shift+arrow down, oldest first with Shift+arrow up
   if (
     event.shiftKey &&
     (event.key === "ArrowDown" || event.key === "ArrowUp")
   ) {
     const newSort = event.key === "ArrowDown" ? "created-desc" : "created-asc";
     state.sort = newSort;
-    closeSortMenu(elements.sortToggle, elements.sortMenu);
+    closeSortMenu($.sortToggle, $.sortMenu);
     persistAndRender(false);
   }
 }
 
-function animateDot() {
-  dotPos.x += (mouse.x - dotPos.x) * ease;
-  dotPos.y += (mouse.y - dotPos.y) * ease;
-  elements.dot.style.transform = `translate3d(${dotPos.x}px, ${dotPos.y}px, 0) translate(-50%, -50%)`;
-  requestAnimationFrame(animateDot);
-}
-
 // Initialization
 function init() {
-  setGreeting(elements.greeting);
+  setGreeting($.greeting);
   const theme = loadTheme();
-  applyTheme(theme, elements.themeToggle);
+  applyTheme(theme, $.themeToggle);
   syncFilterButtons(state);
   initDailyQuote(
-    elements.quoteText,
-    elements.quoteAuthor,
-    elements.shareQuoteBtn,
+    $.quoteText,
+    $.quoteAuthor,
+    $.shareQuoteBtn,
     displayQuote,
     fetchAndDisplayQuote,
   );
   persistAndRender();
 
-  window.addEventListener("mousemove", (e) => {
-    mouse.x = e.clientX;
-    mouse.y = e.clientY;
-    if (!isMoving) {
-      elements.dot.style.opacity = "1";
-      isMoving = true;
-    }
-  });
+  initCursor($.dot);
 
-  requestAnimationFrame(animateDot);
-  window.addEventListener("mouseout", () => {
-    elements.dot.style.opacity = "0";
-    isMoving = false;
-  });
-
-  elements.taskForm.addEventListener("submit", handleAddTask);
-  elements.searchInput.addEventListener("input", handleSearch);
-  elements.themeToggle.addEventListener("change", handleThemeToggle);
-  elements.sortToggle.addEventListener("click", () =>
-    toggleSortMenu(elements.sortToggle, elements.sortMenu),
+  $.taskForm.addEventListener("submit", handleAddTask);
+  $.searchInput.addEventListener("input", handleSearch);
+  $.themeToggle.addEventListener("change", handleThemeToggle);
+  $.sortToggle.addEventListener("click", () =>
+    toggleSortMenu($.sortToggle, $.sortMenu),
   );
 
-  elements.sortMenu.querySelectorAll("[data-sort]").forEach((option) => {
+  $.sortMenu.querySelectorAll("[data-sort]").forEach((option) => {
     option.addEventListener("click", () => handleSort(option.dataset.sort));
   });
 
@@ -245,61 +184,61 @@ function init() {
     );
   });
 
-  if (elements.exportBtn)
-    elements.exportBtn.addEventListener("click", () => handleExport(state));
-  if (elements.importBtn && elements.importFileInput) {
-    elements.importBtn.addEventListener("click", () =>
-      elements.importFileInput.click(),
+  if ($.exportBtn)
+    $.exportBtn.addEventListener("click", () => handleExport(state));
+  if ($.importBtn && $.importFileInput) {
+    $.importBtn.addEventListener("click", () =>
+      $.importFileInput.click(),
     );
-    elements.importFileInput.addEventListener("change", (e) =>
+    $.importFileInput.addEventListener("change", (e) =>
       handleImportFile(e, state, persistAndRender, (msg, type) =>
-        showToast(msg, type, 10000, elements.toasts),
+        showToast(msg, type, 10000, $.toasts),
       ),
     );
   }
 
-  if (elements.shareQuoteBtn) {
-    elements.shareQuoteBtn.addEventListener("click", () =>
+  if ($.shareQuoteBtn) {
+    $.shareQuoteBtn.addEventListener("click", () =>
       openShareQuoteModal(
-        elements.quoteText.textContent,
-        elements.quoteAuthor.textContent,
-        elements.overlay,
-        elements.shareModal,
-        (msg, type) => showToast(msg, type, 10000, elements.toasts),
-        elements.ogDescriptionMeta,
-        elements.originalOgDescription,
+        $.quoteText.textContent,
+        $.quoteAuthor.textContent,
+        $.overlay,
+        $.shareModal,
+        (msg, type) => showToast(msg, type, 10000, $.toasts),
+        $.ogDescriptionMeta,
+        ORIGINAL_OG_DESCRIPTION,
       ),
     );
   }
 
-  shareQuoteBtns.forEach((btn) => {
+  $.shareQuoteBtns.forEach((btn) => {
     btn.addEventListener("click", () =>
       shareQuote(
-        elements.quoteText.textContent,
-        elements.quoteAuthor.textContent,
+        $.quoteText.textContent,
+        $.quoteAuthor.textContent,
         btn.dataset.platform,
-        elements.overlay,
-        elements.shareModal,
+        $.overlay,
+        $.shareModal,
       ),
     );
   });
 
-  elements.copyQuoteBtn.addEventListener("click", () => {
+  $.copyQuoteBtn.addEventListener("click", () => {
     copyQuoteToClipboard(
-      elements.quoteText.textContent,
-      elements.quoteAuthor.textContent,
-      (msg, type) => showToast(msg, type, 10000, elements.toasts),
-      elements.copyQuoteBtnText,
+      $.quoteText.textContent,
+      $.quoteAuthor.textContent,
+      (msg, type) => showToast(msg, type, 10000, $.toasts),
+      $.copyQuoteBtnText,
     );
   });
 
-  if (closeShareModalBtn) {
-    closeShareModalBtn.addEventListener("click", () =>
+  if ($.closeShareModalBtn) {
+    $.closeShareModalBtn.addEventListener("click", () =>
       closeShareModal(
-        elements.overlay,
-        elements.shareModal,
-        elements.ogDescriptionMeta,
-        elements.originalOgDescription,
+        $.overlay,
+        $.shareModal,
+        $.ogDescriptionMeta,
+        ORIGINAL_OG_DESCRIPTION,
       ),
     );
   }

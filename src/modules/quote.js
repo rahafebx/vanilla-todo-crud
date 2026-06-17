@@ -37,7 +37,7 @@ export async function fetchAndDisplayQuote(displayQuoteFn) {
 }
 
 export function displayQuote(quote, quoteText, quoteAuthor, shareQuoteBtn) {
-  if(quote.data[0].quote != undefined && quote.data[0].quote != null){
+  if (quote?.data?.[0]?.quote) {
     quoteText.textContent = `"${quote.data[0].quote}"`;
     quoteAuthor.textContent = `— ${quote.data[0].author || "Unknown"}`;
   }
